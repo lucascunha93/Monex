@@ -1,0 +1,7 @@
+{
+  "name": "monex",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
