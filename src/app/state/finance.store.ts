@@ -13,6 +13,8 @@ import {
 } from '../core/models/finance.models';
 import { createId } from '../core/utils/id.util';
 import { getCurrentMonthKey, monthKeyFromDate } from '../core/utils/date.util';
+import { resolveCategoryId, fallbackCategoryId } from '../core/utils/category.util';
+import { shouldGenerateForMonth, buildRecurringDate } from '../core/utils/recurring.util';
 
 interface AddTransactionInput {
   description: string;
@@ -206,22 +208,7 @@ export class FinanceStore {
   }
 
   private smartCategory(description: string, type: TransactionType): string | undefined {
-    const text = description.toLowerCase();
-
-    const byKeyword = this.categories().find((category) => {
-      const typeMatches = category.type === 'both' || category.type === type;
-      return typeMatches && category.keywords.some((keyword) => text.includes(keyword.toLowerCase()));
-    });
-
-    if (byKeyword) {
-      return byKeyword.id;
-    }
-
-    const history = this.transactions()
-      .filter((transaction) => transaction.type === type)
-      .find((transaction) => text.includes(transaction.description.toLowerCase()) || transaction.description.toLowerCase().includes(text));
-
-    return history?.categoryId;
+    return resolveCategoryId(description, type, this.categories(), this.transactions());
   }
 
   async addTransaction(input: AddTransactionInput): Promise<void> {
@@ -289,38 +276,35 @@ export class FinanceStore {
     await this.syncService.enqueue('settings:update', settings);
   }
 
+  switchUser(userId: string): void {
+    this.repository.switchUser(userId);
+    this.clear();
+  }
+
+  clear(): void {
+    this.transactions.set([]);
+    this.accounts.set([]);
+    this.categories.set([]);
+    this.recurringRules.set([]);
+    this.goals.set([]);
+    this.settings.set({ locale: 'pt-BR', currency: 'BRL', darkMode: false });
+    this.filters.set({ search: '', type: 'all', categoryId: 'all', accountId: 'all' });
+    this.selectedMonth.set(getCurrentMonthKey());
+  }
+
   private fallbackCategory(type: TransactionType): string {
-    const candidate = this.categories().find((category) => category.type === type || category.type === 'both');
-    return candidate?.id ?? this.categories()[0]?.id ?? '';
+    return fallbackCategoryId(type, this.categories());
   }
 
   private async generateRecurringTransactions(): Promise<void> {
     const month = this.selectedMonth();
-    const [yearRaw, monthRaw] = month.split('-');
-    const year = Number(yearRaw);
-    const monthNumber = Number(monthRaw);
 
     for (const rule of this.recurringRules()) {
-      if (rule.lastGeneratedMonth === month) {
+      if (!shouldGenerateForMonth(rule, month, this.transactions())) {
         continue;
       }
 
-      const day = Math.min(rule.dayOfMonth, new Date(year, monthNumber, 0).getDate());
-      const date = `${month}-${String(day).padStart(2, '0')}`;
-      const dateObj = new Date(`${date}T12:00:00`);
-      if (dateObj < new Date(rule.startDate)) {
-        continue;
-      }
-      if (rule.endDate && dateObj > new Date(rule.endDate)) {
-        continue;
-      }
-
-      const exists = this.transactions().some(
-        (transaction) => transaction.recurringRuleId === rule.id && monthKeyFromDate(transaction.date) === month,
-      );
-      if (exists) {
-        continue;
-      }
+      const date = buildRecurringDate(rule, month);
 
       await this.addTransaction({
         description: rule.description,

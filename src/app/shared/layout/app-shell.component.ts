@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { FinanceStore } from '../../state/finance.store';
+import { AuthService } from '../../core/services/auth.service';
 import { OfflineSyncService } from '../../core/services/offline-sync.service';
 import { TransactionDialogComponent } from '../components/transaction-dialog/transaction-dialog.component';
 
@@ -32,15 +33,25 @@ export class AppShellComponent {
     { label: 'Contas', icon: 'pi pi-wallet', route: '/accounts' },
     { label: 'Categorias', icon: 'pi pi-tags', route: '/categories' },
     { label: 'Relatorios', icon: 'pi pi-chart-bar', route: '/reports' },
+    { label: 'Importar CSV', icon: 'pi pi-file-import', route: '/import' },
     { label: 'Configuracoes', icon: 'pi pi-cog', route: '/settings' },
   ];
 
   readonly statusLabel = computed(() => (this.sync.isOnline() ? 'Online' : 'Offline'));
+  readonly currentUserName = computed(() => this.auth.currentUser()?.name ?? '');
 
   constructor(
     public readonly store: FinanceStore,
     public readonly sync: OfflineSyncService,
+    private readonly auth: AuthService,
+    private readonly router: Router,
   ) {}
+
+  logout(): void {
+    this.auth.logout();
+    this.store.clear();
+    void this.router.navigate(['/login']);
+  }
 
   async onCreateTransaction(payload: {
     description: string;

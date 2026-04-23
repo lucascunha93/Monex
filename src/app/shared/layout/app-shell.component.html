@@ -17,6 +17,14 @@
     </nav>
 
     <p-tag [value]="statusLabel()" [severity]="sync.isOnline() ? 'success' : 'warn'"></p-tag>
+
+    <div class="user-info">
+      <i class="pi pi-user"></i>
+      <span class="user-name">{{ currentUserName() }}</span>
+      <button type="button" class="logout-btn" title="Sair" (click)="logout()">
+        <i class="pi pi-sign-out"></i>
+      </button>
+    </div>
   </aside>
 
   <main class="shell__content">

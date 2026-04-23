@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { AuthService } from './core/services/auth.service';
 import { FinanceStore } from './state/finance.store';
 
 @Component({
@@ -8,9 +10,19 @@ import { FinanceStore } from './state/finance.store';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent implements OnInit {
-  constructor(private readonly store: FinanceStore) {}
+  constructor(
+    private readonly auth: AuthService,
+    private readonly store: FinanceStore,
+    private readonly router: Router,
+  ) {}
 
   ngOnInit(): void {
-    void this.store.init();
+    if (this.auth.isAuthenticated()) {
+      const userId = this.auth.getUserId();
+      this.store.switchUser(userId);
+      void this.store.init();
+    } else {
+      void this.router.navigate(['/login']);
+    }
   }
 }

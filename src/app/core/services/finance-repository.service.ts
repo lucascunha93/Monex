@@ -17,6 +17,10 @@ import { IndexedDbService } from './indexeddb.service';
 export class FinanceRepositoryService {
   constructor(private readonly db: IndexedDbService) {}
 
+  switchUser(userId: string): void {
+    this.db.switchUser(userId);
+  }
+
   async bootstrapIfNeeded(): Promise<void> {
     const [accounts, categories, recurring] = await Promise.all([
       this.db.getAll<Account>('accounts'),

@@ -103,3 +103,37 @@ nav a.active {
     display: none;
   }
 }
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.8rem;
+  background: rgba(15, 23, 42, 0.05);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #334155;
+
+  .user-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0.2rem;
+  line-height: 1;
+  border-radius: 0.4rem;
+  transition: color 0.18s;
+
+  &:hover {
+    color: #dc2626;
+  }
+}

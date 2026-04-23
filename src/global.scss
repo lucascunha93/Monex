@@ -56,3 +56,70 @@ p-card,
 .p-button {
 	border-radius: 0.8rem;
 }
+
+/* ── PrimeNG base input styles (sem tema configurado) ────────────────────── */
+
+.p-inputtext {
+	width: 100%;
+	padding: 0.75rem 1rem;
+	font-size: 1rem;
+	font-family: inherit;
+	border: 1.5px solid #cbd5e1;
+	border-radius: 0.75rem;
+	background: #fff;
+	color: #0f172a;
+	outline: none;
+	transition: border-color 0.18s, box-shadow 0.18s;
+	box-sizing: border-box;
+
+	&:focus {
+		border-color: #1d4ed8;
+		box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+	}
+}
+
+/* p-password: container com ícone de toggle posicionado dentro do input */
+p-password {
+	display: block;
+	width: 100%;
+}
+
+.p-password {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 100%;
+
+	.p-inputtext {
+		flex: 1;
+		padding-right: 2.8rem; /* espaço para o ícone */
+	}
+
+	.p-password-toggle-icon,
+	.p-password-mask-icon,
+	.p-password-unmask-icon {
+		position: absolute;
+		right: 0.8rem;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+		color: #94a3b8;
+		font-size: 1rem;
+		line-height: 1;
+		background: none;
+		border: none;
+		padding: 0;
+
+		&:hover {
+			color: #475569;
+		}
+	}
+}
+
+/* p-select (dropdown) */
+.p-select,
+p-select {
+	.p-select-label {
+		padding: 0.6rem 0.8rem;
+	}
+}

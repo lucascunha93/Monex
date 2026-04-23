@@ -13,9 +13,18 @@ type StoreName =
   providedIn: 'root',
 })
 export class IndexedDbService {
-  private readonly dbName = 'monex-db';
+  private userId = 'anonymous';
   private readonly version = 1;
   private dbPromise: Promise<IDBDatabase> | null = null;
+
+  private get dbName(): string {
+    return `monex-db-${this.userId}`;
+  }
+
+  switchUser(userId: string): void {
+    this.userId = userId;
+    this.dbPromise = null;
+  }
 
   private get db(): Promise<IDBDatabase> {
     if (!this.dbPromise) {

@@ -1,0 +1,75 @@
+.import {
+  display: grid;
+  gap: 1rem;
+}
+
+h2 {
+  margin: 0;
+}
+
+.hint {
+  color: var(--text-soft);
+  margin: 0 0 1.2rem;
+}
+
+.file-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 0.8rem;
+  background: #1d4ed8;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.file-btn:hover {
+  background: #1e40af;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+.mapping-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 0.8rem;
+  align-items: center;
+  max-width: 36rem;
+}
+
+.mapping-grid label {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.summary-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.summary-row label {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.preview-table :host ::ng-deep .row-invalid {
+  opacity: 0.55;
+}
+
+.footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+}
