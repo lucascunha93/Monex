@@ -1,0 +1,80 @@
+<p-dialog
+  header="Nova transacao"
+  [modal]="true"
+  [visible]="visible"
+  [style]="{ width: '32rem', maxWidth: '96vw' }"
+  (visibleChange)="visibleChange.emit($event)"
+>
+  <div class="form-grid">
+    <label for="txDescription">Descricao</label>
+    <input
+      id="txDescription"
+      pInputText
+      [(ngModel)]="model.description"
+      placeholder="Ex: Mercado do mes"
+    />
+
+    <label for="txAmount">Valor</label>
+    <p-inputNumber
+      inputId="txAmount"
+      mode="currency"
+      currency="BRL"
+      locale="pt-BR"
+      [(ngModel)]="model.amount"
+    ></p-inputNumber>
+
+    <label for="txDate">Data</label>
+    <input
+      id="txDate"
+      pInputText
+      type="date"
+      [(ngModel)]="model.date"
+    />
+
+    <label for="txType">Tipo</label>
+    <p-select
+      inputId="txType"
+      [options]="[
+        { label: 'Despesa', value: 'expense' },
+        { label: 'Receita', value: 'income' }
+      ]"
+      [(ngModel)]="model.type"
+      (ngModelChange)="model.categoryId = 'auto'"
+      optionLabel="label"
+      optionValue="value"
+    ></p-select>
+
+    <label for="txCategory">Categoria</label>
+    <p-select
+      inputId="txCategory"
+      [options]="categoryOptions()"
+      [(ngModel)]="model.categoryId"
+      optionLabel="label"
+      optionValue="value"
+    ></p-select>
+
+    <label for="txAccount">Conta</label>
+    <p-select
+      inputId="txAccount"
+      [options]="accounts"
+      [(ngModel)]="model.accountId"
+      optionLabel="name"
+      optionValue="id"
+    ></p-select>
+
+    <label for="txLocation">Local (opcional)</label>
+    <input
+      id="txLocation"
+      pInputText
+      [(ngModel)]="model.location"
+      placeholder="Ex: Sao Paulo"
+    />
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="footer-actions">
+      <p-button label="Cancelar" severity="secondary" [text]="true" (onClick)="close()"></p-button>
+      <p-button label="Salvar" icon="pi pi-check" (onClick)="submit()"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>

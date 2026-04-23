@@ -1,0 +1,46 @@
+<section class="reports">
+  <h2>Relatorios e metas</h2>
+
+  <p-card header="Insights">
+    <ul>
+      <li>{{ store.insights().message }}</li>
+      <li>
+        Maior categoria de gasto:
+        {{ topCategoryName() }}
+      </li>
+      <li>Previsao de saldo em 90 dias: {{ money(projectedBalance()) }}</li>
+    </ul>
+  </p-card>
+
+  <p-card header="Nova meta financeira">
+    <div class="goal-form">
+      <input
+        pInputText
+        [(ngModel)]="draftGoal.name"
+        placeholder="Ex: Reserva de emergencia"
+      />
+      <p-inputNumber
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+        [(ngModel)]="draftGoal.targetAmount"
+      ></p-inputNumber>
+      <p-inputNumber
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+        [(ngModel)]="draftGoal.currentAmount"
+      ></p-inputNumber>
+      <p-button label="Salvar meta" icon="pi pi-check" (onClick)="saveGoal()"></p-button>
+    </div>
+  </p-card>
+
+  <div class="goals-grid">
+    @for (goal of store.goals(); track goal.id) {
+      <p-card [header]="goal.name">
+        <p>{{ money(goal.currentAmount) }} / {{ money(goal.targetAmount) }}</p>
+        <p-progressBar [value]="progress(goal)"></p-progressBar>
+      </p-card>
+    }
+  </div>
+</section>

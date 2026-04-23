@@ -1,0 +1,79 @@
+<section class="transactions">
+  <header>
+    <h2>Transacoes</h2>
+    <p-button label="Nova" icon="pi pi-plus" (onClick)="dialogOpen.set(true)"></p-button>
+  </header>
+
+  <p-card>
+    <app-quick-entry (quickParsed)="handleQuickEntry($event)"></app-quick-entry>
+  </p-card>
+
+  <p-card>
+    <div class="filters">
+      <input
+        pInputText
+        [ngModel]="store.filters().search"
+        (ngModelChange)="store.updateFilters({ search: $event })"
+        placeholder="Buscar descricao"
+      />
+
+      <p-select
+        [options]="[
+          { label: 'Todos os tipos', value: 'all' },
+          { label: 'Receitas', value: 'income' },
+          { label: 'Despesas', value: 'expense' }
+        ]"
+        [ngModel]="store.filters().type"
+        (ngModelChange)="store.updateFilters({ type: $event })"
+        optionLabel="label"
+        optionValue="value"
+      ></p-select>
+
+      <p-select
+        [options]="categoryFilterOptions()"
+        [ngModel]="store.filters().categoryId"
+        (ngModelChange)="store.updateFilters({ categoryId: $event })"
+        optionLabel="name"
+        optionValue="id"
+      ></p-select>
+
+      <p-select
+        [options]="accountFilterOptions()"
+        [ngModel]="store.filters().accountId"
+        (ngModelChange)="store.updateFilters({ accountId: $event })"
+        optionLabel="name"
+        optionValue="id"
+      ></p-select>
+
+      <p-button label="Limpar" severity="secondary" [text]="true" (onClick)="store.resetFilters()"></p-button>
+    </div>
+  </p-card>
+
+  <p-card>
+    <cdk-virtual-scroll-viewport itemSize="78" class="virtual-list">
+      <div class="transaction-row" *cdkVirtualFor="let transaction of store.filteredTransactions(); trackBy: trackById">
+        <div>
+          <strong>{{ transaction.description }}</strong>
+          <small>{{ categoryName(transaction.categoryId) }} • {{ accountName(transaction.accountId) }}</small>
+        </div>
+
+        <div class="transaction-row__meta">
+          <p-tag [value]="transaction.type === 'income' ? 'Receita' : 'Despesa'" [severity]="transaction.type === 'income' ? 'success' : 'danger'"></p-tag>
+          <span [class.expense]="transaction.type === 'expense'">
+            {{ transaction.type === 'income' ? '+' : '-' }}{{ money(transaction.amount) }}
+          </span>
+          <small>{{ transaction.date }}</small>
+          <p-button icon="pi pi-trash" severity="danger" [text]="true" (onClick)="remove(transaction.id)"></p-button>
+        </div>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </p-card>
+</section>
+
+<app-transaction-dialog
+  [visible]="dialogOpen()"
+  [accounts]="store.accounts()"
+  [categories]="store.categories()"
+  (visibleChange)="dialogOpen.set($event)"
+  (submitted)="handleDialogSubmit($event)"
+></app-transaction-dialog>

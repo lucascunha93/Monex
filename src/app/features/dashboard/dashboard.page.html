@@ -1,0 +1,33 @@
+<section class="dashboard">
+  <header class="hero">
+    <div>
+      <h2>Visao financeira</h2>
+      <p>Resumo inteligente com comparativo mensal e distribuicao por categoria.</p>
+    </div>
+    <p-tag [value]="store.insights().message" severity="info"></p-tag>
+  </header>
+
+  <div class="kpis">
+    <p-card>
+      <span class="label">Receita do mes</span>
+      <strong>{{ money(store.currentMonthIncome()) }}</strong>
+    </p-card>
+    <p-card>
+      <span class="label">Despesa do mes</span>
+      <strong class="danger">{{ money(store.currentMonthExpense()) }}</strong>
+    </p-card>
+    <p-card>
+      <span class="label">Saldo consolidado</span>
+      <strong>{{ money(store.consolidatedBalance()) }}</strong>
+    </p-card>
+  </div>
+
+  <div class="charts">
+    <p-card header="Evolucao mensal (ultimos 6 meses)">
+      <p-chart type="line" [data]="monthlyLineData()"></p-chart>
+    </p-card>
+    <p-card header="Despesas por categoria">
+      <p-chart type="pie" [data]="categoryPieData()"></p-chart>
+    </p-card>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+.quick-entry {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.quick-entry label {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-soft);
+}
+
+.quick-entry__row {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr auto;
+}
+
+.quick-entry__row input {
+  width: 100%;
+}

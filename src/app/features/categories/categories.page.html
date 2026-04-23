@@ -1,0 +1,58 @@
+<section class="categories">
+  <h2>Categorias inteligentes</h2>
+
+  <p-card header="Nova categoria">
+    <div class="form-grid">
+      <input
+        pInputText
+        [(ngModel)]="draft.name"
+        placeholder="Nome"
+      />
+
+      <select [(ngModel)]="draft.type">
+        <option value="expense">Despesa</option>
+        <option value="income">Receita</option>
+        <option value="both">Ambos</option>
+      </select>
+
+      <input
+        pInputText
+        [(ngModel)]="draft.icon"
+        placeholder="Icone Prime (pi pi-tag)"
+      />
+
+      <input
+        pInputText
+        [(ngModel)]="draft.color"
+        placeholder="Cor hex"
+      />
+
+      <input
+        pInputText
+        [(ngModel)]="draft.keywords"
+        placeholder="Palavras-chave separadas por virgula"
+      />
+
+      <p-button label="Salvar categoria" (onClick)="save()"></p-button>
+    </div>
+  </p-card>
+
+  <p-card header="Lista de categorias">
+    <p-table [value]="store.categories()" [tableStyle]="{ 'min-width': '30rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Palavras-chave</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-category>
+        <tr>
+          <td><i [class]="category.icon"></i> {{ category.name }}</td>
+          <td>{{ category.type }}</td>
+          <td>{{ category.keywords.join(', ') }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</section>
