@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DEFAULT_ACCOUNTS, DEFAULT_CATEGORIES, DEFAULT_RECURRING_RULES, DEFAULT_SETTINGS } from '../constants/default-data';
+import { DEFAULT_CATEGORIES, DEFAULT_SETTINGS } from '../constants/default-data';
 import {
   Account,
   Category,
@@ -22,28 +22,14 @@ export class FinanceRepositoryService {
   }
 
   async bootstrapIfNeeded(): Promise<void> {
-    const [accounts, categories, recurring] = await Promise.all([
-      this.db.getAll<Account>('accounts'),
-      this.db.getAll<Category>('categories'),
-      this.db.getAll<RecurringRule>('recurring-rules'),
-    ]);
-
-    if (!accounts.length) {
-      await this.db.bulkPut('accounts', DEFAULT_ACCOUNTS);
-    }
+    const categories = await this.db.getAll<Category>('categories');
     if (!categories.length) {
       await this.db.bulkPut('categories', DEFAULT_CATEGORIES);
-    }
-    if (!recurring.length) {
-      await this.db.bulkPut('recurring-rules', DEFAULT_RECURRING_RULES);
     }
 
     const settings = await this.db.getAll<{ id: string } & UserSettings>('settings');
     if (!settings.length) {
-      await this.db.put('settings', {
-        id: 'default',
-        ...DEFAULT_SETTINGS,
-      });
+      await this.db.put('settings', { id: 'default', ...DEFAULT_SETTINGS });
     }
   }
 

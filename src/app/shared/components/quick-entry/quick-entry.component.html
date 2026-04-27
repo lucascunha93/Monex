@@ -1,14 +1,19 @@
 <div class="quick-entry">
-  <label for="quickEntry">Entrada rapida</label>
+  <span class="quick-entry__label">
+    <i class="pi pi-bolt"></i> Entrada rapida
+  </span>
   <div class="quick-entry__row">
     <input
-      id="quickEntry"
       pInputText
       [ngModel]="inputValue()"
       (ngModelChange)="inputValue.set($event)"
-      placeholder="Ex: R$ 50 mercado"
+      placeholder="Ex: R$ 50 mercado, +200 salario..."
       aria-label="Entrada rapida de transacao"
+      (keydown.enter)="submit()"
     />
-    <p-button label="Adicionar" icon="pi pi-bolt" (onClick)="submit()"></p-button>
+    <button type="button" class="quick-btn" (click)="submit()">
+      <i class="pi pi-plus"></i>
+      <span>Adicionar</span>
+    </button>
   </div>
 </div>

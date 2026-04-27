@@ -1,30 +1,109 @@
-<section class="settings">
-  <h2>Configuracoes</h2>
+<section class="settings page-section">
 
-  <p-card header="Preferencias">
-    <div class="grid">
-      <label for="settingsLocale">Locale</label>
-      <select id="settingsLocale" [(ngModel)]="model.locale">
-        <option value="pt-BR">pt-BR</option>
-        <option value="en-US">en-US</option>
-      </select>
-
-      <label for="settingsCurrency">Moeda</label>
-      <select id="settingsCurrency" [(ngModel)]="model.currency">
-        <option value="BRL">BRL</option>
-        <option value="USD">USD</option>
-      </select>
-
-      <label for="settingsDarkMode">Dark mode</label>
-      <p-toggleswitch inputId="settingsDarkMode" [(ngModel)]="model.darkMode"></p-toggleswitch>
-
-      <p-button label="Salvar" icon="pi pi-check" (onClick)="save()"></p-button>
+  <div class="page-header">
+    <div>
+      <h2>Configuracoes</h2>
+      <p>Personalize o Monex de acordo com suas preferencias.</p>
     </div>
-  </p-card>
+  </div>
 
-  <p-card header="Offline first">
-    <p>Status da conexao: <strong>{{ sync.isOnline() ? 'Online' : 'Offline' }}</strong></p>
-    <p>Status da sincronizacao: <strong>{{ sync.syncing() ? 'Sincronizando' : 'Parado' }}</strong></p>
-    <p-button label="Sincronizar agora" icon="pi pi-refresh" (onClick)="syncNow()"></p-button>
-  </p-card>
+  <div class="settings-layout">
+
+    <!-- Preferences -->
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="card-section-title">Preferencias</div>
+      </ng-template>
+
+      <div class="settings-stack">
+        <div class="settings-row">
+          <div class="settings-row__label">
+            <i class="pi pi-globe settings-row__icon"></i>
+            <div>
+              <span class="settings-row__title">Locale</span>
+              <span class="settings-row__desc">Formato de data e numero</span>
+            </div>
+          </div>
+          <p-select
+            [options]="localeOptions"
+            [(ngModel)]="model.locale"
+            optionLabel="label"
+            optionValue="value"
+            class="settings-select"
+          ></p-select>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-row__label">
+            <i class="pi pi-dollar settings-row__icon"></i>
+            <div>
+              <span class="settings-row__title">Moeda</span>
+              <span class="settings-row__desc">Moeda de exibicao</span>
+            </div>
+          </div>
+          <p-select
+            [options]="currencyOptions"
+            [(ngModel)]="model.currency"
+            optionLabel="label"
+            optionValue="value"
+            class="settings-select"
+          ></p-select>
+        </div>
+
+        <div class="settings-row">
+          <div class="settings-row__label">
+            <i class="pi pi-moon settings-row__icon"></i>
+            <div>
+              <span class="settings-row__title">Modo escuro</span>
+              <span class="settings-row__desc">Alterna entre tema claro e escuro</span>
+            </div>
+          </div>
+          <p-toggleswitch inputId="settingsDarkMode" [(ngModel)]="model.darkMode"></p-toggleswitch>
+        </div>
+
+        <div class="settings-actions">
+          <button type="button" class="btn-save" (click)="save()">
+            <i class="pi pi-check"></i> Salvar preferencias
+          </button>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Sync status -->
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="card-section-title">Sincronizacao offline</div>
+      </ng-template>
+
+      <div class="settings-stack">
+        <div class="sync-status-row">
+          <div class="sync-dot" [class.sync-dot--online]="sync.isOnline()"></div>
+          <div>
+            <span class="settings-row__title">Conexao</span>
+            <span class="sync-value" [class.sync-value--online]="sync.isOnline()">
+              {{ sync.isOnline() ? 'Online' : 'Offline' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="sync-status-row">
+          <div class="sync-dot" [class.sync-dot--active]="sync.syncing()"></div>
+          <div>
+            <span class="settings-row__title">Sincronizacao</span>
+            <span class="sync-value" [class.sync-value--active]="sync.syncing()">
+              {{ sync.syncing() ? 'Em andamento...' : 'Parado' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button type="button" class="btn-sync" (click)="syncNow()">
+            <i class="pi pi-refresh"></i> Sincronizar agora
+          </button>
+        </div>
+      </div>
+    </p-card>
+
+  </div>
+
 </section>

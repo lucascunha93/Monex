@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { ProgressBarModule } from 'primeng/progressbar';
 import { createId } from '../../core/utils/id.util';
 import { formatCurrency } from '../../core/utils/money.util';
 import { FinanceStore } from '../../state/finance.store';
@@ -13,7 +11,7 @@ import { FinanceStore } from '../../state/finance.store';
 @Component({
   selector: 'app-reports-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardModule, InputTextModule, InputNumberModule, ButtonModule, ProgressBarModule],
+  imports: [CommonModule, FormsModule, CardModule, InputTextModule, InputNumberModule],
   templateUrl: './reports.page.html',
   styleUrl: './reports.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

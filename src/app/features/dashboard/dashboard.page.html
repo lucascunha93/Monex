@@ -1,33 +1,147 @@
 <section class="dashboard">
-  <header class="hero">
+
+  <!-- Header -->
+  <header class="page-header">
     <div>
       <h2>Visao financeira</h2>
       <p>Resumo inteligente com comparativo mensal e distribuicao por categoria.</p>
     </div>
-    <p-tag [value]="store.insights().message" severity="info"></p-tag>
+    <div class="insight-badge" [class.insight-badge--up]="store.insights().variation > 0">
+      <i [class]="store.insights().variation > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
+      {{ store.insights().message }}
+    </div>
   </header>
 
+  <!-- Month Navigator -->
+  <div class="month-nav">
+    <button type="button" class="month-nav__btn" (click)="store.navigateMonth(-1)" aria-label="Mes anterior">
+      <i class="pi pi-chevron-left"></i>
+    </button>
+    <span class="month-nav__label">{{ monthLabel() }}</span>
+    <button type="button" class="month-nav__btn" (click)="store.navigateMonth(1)" [disabled]="isCurrentMonth()" aria-label="Proximo mes">
+      <i class="pi pi-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- KPI cards -->
   <div class="kpis">
+    <div class="kpi-card kpi-card--income">
+      <div class="kpi-card__icon"><i class="pi pi-arrow-down-left"></i></div>
+      <div class="kpi-card__body">
+        <span class="kpi-card__label">Receita do mes</span>
+        <strong class="kpi-card__value">{{ money(store.currentMonthIncome()) }}</strong>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-card--expense">
+      <div class="kpi-card__icon"><i class="pi pi-arrow-up-right"></i></div>
+      <div class="kpi-card__body">
+        <span class="kpi-card__label">Despesa do mes</span>
+        <strong class="kpi-card__value kpi-card__value--danger">{{ money(store.currentMonthExpense()) }}</strong>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-card--balance">
+      <div class="kpi-card__icon"><i class="pi pi-wallet"></i></div>
+      <div class="kpi-card__body">
+        <span class="kpi-card__label">Saldo consolidado</span>
+        <strong class="kpi-card__value" [class.kpi-card__value--danger]="store.consolidatedBalance() < 0">
+          {{ money(store.consolidatedBalance()) }}
+        </strong>
+      </div>
+    </div>
+
+    <div class="kpi-card kpi-card--saving">
+      <div class="kpi-card__icon"><i class="pi pi-chart-line"></i></div>
+      <div class="kpi-card__body">
+        <span class="kpi-card__label">Economia do mes</span>
+        <strong class="kpi-card__value" [class.kpi-card__value--danger]="monthSaving() < 0">
+          {{ money(monthSaving()) }}
+        </strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts row -->
+  <div class="charts">
     <p-card>
-      <span class="label">Receita do mes</span>
-      <strong>{{ money(store.currentMonthIncome()) }}</strong>
+      <ng-template pTemplate="header">
+        <div class="card-header-bar">
+          <span>Evolucao mensal (ultimos 6 meses)</span>
+        </div>
+      </ng-template>
+      <p-chart type="line" [data]="monthlyLineData()" [options]="lineOptions" height="220"></p-chart>
     </p-card>
+
     <p-card>
-      <span class="label">Despesa do mes</span>
-      <strong class="danger">{{ money(store.currentMonthExpense()) }}</strong>
-    </p-card>
-    <p-card>
-      <span class="label">Saldo consolidado</span>
-      <strong>{{ money(store.consolidatedBalance()) }}</strong>
+      <ng-template pTemplate="header">
+        <div class="card-header-bar">
+          <span>Despesas por categoria</span>
+        </div>
+      </ng-template>
+      @if (store.categoryBreakdown().length > 0) {
+        <p-chart type="doughnut" [data]="categoryPieData()" [options]="doughnutOptions" height="220"></p-chart>
+      } @else {
+        <div class="empty-chart">
+          <i class="pi pi-chart-pie"></i>
+          <p>Nenhuma despesa neste mes</p>
+        </div>
+      }
     </p-card>
   </div>
 
-  <div class="charts">
-    <p-card header="Evolucao mensal (ultimos 6 meses)">
-      <p-chart type="line" [data]="monthlyLineData()"></p-chart>
+  <!-- Category breakdown + Recent transactions -->
+  <div class="bottom-grid">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="card-header-bar">
+          <span>Top categorias</span>
+        </div>
+      </ng-template>
+      @if (store.categoryBreakdown().length === 0) {
+        <p class="text-soft text-sm">Nenhum dado disponivel.</p>
+      }
+      @for (item of store.categoryBreakdown(); track item.categoryId; let i = $index) {
+        @if (i < 5) {
+          <div class="category-bar">
+            <div class="category-bar__info">
+              <span class="category-bar__dot" [style.background]="item.category?.color ?? '#94a3b8'"></span>
+              <span class="category-bar__name">{{ item.category?.name ?? 'Sem categoria' }}</span>
+              <span class="category-bar__pct">{{ categoryPct(item.total) }}%</span>
+            </div>
+            <div class="category-bar__track">
+              <div class="category-bar__fill" [style.width.%]="categoryPct(item.total)" [style.background]="item.category?.color ?? '#94a3b8'"></div>
+            </div>
+            <span class="category-bar__amount text-sm font-semibold text-expense">{{ money(item.total) }}</span>
+          </div>
+        }
+      }
     </p-card>
-    <p-card header="Despesas por categoria">
-      <p-chart type="pie" [data]="categoryPieData()"></p-chart>
+
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="card-header-bar">
+          <span>Ultimas transacoes</span>
+        </div>
+      </ng-template>
+      @if (recentTransactions().length === 0) {
+        <p class="text-soft text-sm">Nenhuma transacao neste mes.</p>
+      }
+      @for (tx of recentTransactions(); track tx.id) {
+        <div class="recent-tx">
+          <div class="recent-tx__icon" [class.recent-tx__icon--income]="tx.type === 'income'">
+            <i [class]="tx.type === 'income' ? 'pi pi-plus' : 'pi pi-minus'"></i>
+          </div>
+          <div class="recent-tx__info">
+            <span class="recent-tx__desc">{{ tx.description }}</span>
+            <span class="recent-tx__meta text-sm text-muted">{{ categoryName(tx.categoryId) }} &bull; {{ formatDate(tx.date) }}</span>
+          </div>
+          <span class="recent-tx__amount" [class.text-income]="tx.type === 'income'" [class.text-expense]="tx.type === 'expense'">
+            {{ tx.type === 'income' ? '+' : '-' }}{{ money(tx.amount) }}
+          </span>
+        </div>
+      }
     </p-card>
   </div>
+
 </section>

@@ -1,58 +1,108 @@
-<section class="accounts">
-  <h2>Contas e cartoes</h2>
+<section class="accounts page-section">
 
-  <p-card header="Nova conta">
-    <div class="form-grid">
-      <input
-        pInputText
-        [(ngModel)]="draft.name"
-        placeholder="Nome da conta"
-      />
-
-      <select
-        [(ngModel)]="draft.type"
-      >
-        <option value="checking">Banco</option>
-        <option value="cash">Dinheiro</option>
-        <option value="credit">Cartao de credito</option>
-      </select>
-
-      <p-inputNumber
-        mode="currency"
-        currency="BRL"
-        locale="pt-BR"
-        [(ngModel)]="draft.openingBalance"
-      ></p-inputNumber>
-
-      @if (draft.type === 'credit') {
-        <p-inputNumber
-          mode="currency"
-          currency="BRL"
-          locale="pt-BR"
-          [(ngModel)]="draft.creditLimit"
-        ></p-inputNumber>
-      }
-
-      <p-button label="Salvar conta" icon="pi pi-check" (onClick)="save()"></p-button>
+  <div class="page-header">
+    <div>
+      <h2>Contas e cartoes</h2>
+      <p>Gerencie suas contas bancarias, carteiras e cartoes de credito.</p>
     </div>
-  </p-card>
+  </div>
 
-  <p-card header="Contas cadastradas">
-    <p-table [value]="store.accounts()" [tableStyle]="{ 'min-width': '30rem' }">
+  <div class="accounts-layout">
+
+    <!-- Form -->
+    <p-card>
       <ng-template pTemplate="header">
-        <tr>
-          <th scope="col">Nome</th>
-          <th scope="col">Tipo</th>
-          <th scope="col">Saldo inicial</th>
-        </tr>
+        <div class="card-section-title">Nova conta</div>
       </ng-template>
-      <ng-template pTemplate="body" let-account>
-        <tr>
-          <td>{{ account.name }}</td>
-          <td>{{ account.type }}</td>
-          <td>{{ account.openingBalance | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </p-card>
+
+      <div class="form-stack">
+        <div class="form-field form-field--full">
+          <label for="accName">Nome da conta</label>
+          <input pInputText id="accName" [(ngModel)]="draft.name" placeholder="Ex: Nubank, Carteira..." />
+        </div>
+
+        <div class="form-field form-field--full">
+          <label>Tipo</label>
+          <p-select
+            [options]="accountTypeOptions"
+            [(ngModel)]="draft.type"
+            optionLabel="label"
+            optionValue="value"
+          ></p-select>
+        </div>
+
+        <div class="form-field form-field--full">
+          <label for="accBalance">Saldo inicial</label>
+          <p-inputNumber
+            inputId="accBalance"
+            mode="currency"
+            currency="BRL"
+            locale="pt-BR"
+            [(ngModel)]="draft.openingBalance"
+          ></p-inputNumber>
+        </div>
+
+        @if (draft.type === 'credit') {
+          <div class="form-field form-field--full">
+            <label for="accLimit">Limite de credito</label>
+            <p-inputNumber
+              inputId="accLimit"
+              mode="currency"
+              currency="BRL"
+              locale="pt-BR"
+              [(ngModel)]="draft.creditLimit"
+            ></p-inputNumber>
+          </div>
+        }
+
+        <div class="form-field form-field--full">
+          <label>Cor de identificacao</label>
+          <div class="color-grid">
+            @for (color of accountColors; track color) {
+              <button
+                type="button"
+                class="color-swatch"
+                [style.background]="color"
+                [class.color-swatch--selected]="draft.color === color"
+                (click)="draft.color = color"
+              ></button>
+            }
+          </div>
+        </div>
+
+        <button type="button" class="btn-primary btn-primary--full" (click)="save()">
+          <i class="pi pi-check"></i> Salvar conta
+        </button>
+      </div>
+    </p-card>
+
+    <!-- Accounts list -->
+    <div class="accounts-list">
+      @if (store.accounts().length === 0) {
+        <div class="empty-accounts">
+          <i class="pi pi-wallet"></i>
+          <p>Nenhuma conta cadastrada.</p>
+        </div>
+      }
+      @for (account of store.accounts(); track account.id) {
+        <div class="account-card" [style.border-left-color]="account.color">
+          <div class="account-card__icon" [style.background]="account.color + '22'" [style.color]="account.color">
+            <i [class]="accountTypeIcons[account.type] || 'pi pi-wallet'"></i>
+          </div>
+          <div class="account-card__body">
+            <span class="account-card__name">{{ account.name }}</span>
+            <span class="account-card__type">{{ accountTypeLabels[account.type] || account.type }}</span>
+          </div>
+          <div class="account-card__balance">
+            <span class="account-card__balance-label">Saldo inicial</span>
+            <span class="account-card__balance-value">
+              {{ account.openingBalance | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+
 </section>

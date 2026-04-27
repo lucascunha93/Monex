@@ -1,22 +1,52 @@
 <section class="import">
-  <h2>Importar extrato CSV</h2>
+  <!-- Stepper -->
+  <div class="stepper">
+    <div class="step" [class.active]="state().step === 'upload'" [class.done]="state().step !== 'upload'">
+      <span class="step__badge">
+        @if (state().step !== 'upload') { <i class="pi pi-check"></i> } @else { 1 }
+      </span>
+      <span class="step__label">Upload</span>
+    </div>
+    <div class="step" [class.active]="state().step === 'map'" [class.done]="state().step === 'preview' || state().step === 'done'">
+      <span class="step__badge">
+        @if (state().step === 'preview' || state().step === 'done') { <i class="pi pi-check"></i> } @else { 2 }
+      </span>
+      <span class="step__label">Mapear colunas</span>
+    </div>
+    <div class="step" [class.active]="state().step === 'preview'" [class.done]="state().step === 'done'">
+      <span class="step__badge">
+        @if (state().step === 'done') { <i class="pi pi-check"></i> } @else { 3 }
+      </span>
+      <span class="step__label">Previsualizar</span>
+    </div>
+    <div class="step" [class.active]="state().step === 'done'">
+      <span class="step__badge">4</span>
+      <span class="step__label">Concluido</span>
+    </div>
+  </div>
 
   @switch (state().step) {
     @case ('upload') {
-      <p-card header="Selecione o arquivo">
-        <p class="hint">
-          Suporta extratos em CSV com delimitador virgula, ponto-e-virgula ou tabulacao.
-          Detecta automaticamente colunas de data, descricao, valor e tipo.
-        </p>
-        <label class="file-btn" for="csvFileInput">
-          <i class="pi pi-upload"></i> Escolher arquivo .csv
+      <p-card>
+        <label class="upload-area" for="csvFileInput">
+          <div class="upload-area__icon">
+            <i class="pi pi-cloud-upload"></i>
+          </div>
+          <p class="upload-area__title">Arraste ou clique para selecionar</p>
+          <p class="upload-area__hint">
+            Suporta CSV com delimitador virgula, ponto-e-virgula ou tabulacao.
+            Colunas de data, descricao, valor e tipo sao detectadas automaticamente.
+          </p>
+          <span class="file-btn">
+            <i class="pi pi-upload"></i> Escolher arquivo .csv
+          </span>
         </label>
         <input id="csvFileInput" type="file" accept=".csv,.txt" (change)="onFileSelected($event)" />
       </p-card>
     }
 
     @case ('map') {
-      <p-card header="Mapear colunas">
+      <p-card>
         <p class="hint">{{ state().rawRows.length }} linhas detectadas. Confirme o mapeamento de colunas.</p>
 
         <div class="mapping-grid">
@@ -66,19 +96,23 @@
         </div>
 
         <div class="footer-actions">
-          <p-button label="Voltar" severity="secondary" [text]="true" (onClick)="restart()"></p-button>
-          <p-button label="Previsualizar" icon="pi pi-eye" (onClick)="buildPreview()"></p-button>
+          <button type="button" class="btn-back" (click)="restart()">
+            <i class="pi pi-arrow-left"></i> Voltar
+          </button>
+          <button type="button" class="btn-primary" (click)="buildPreview()">
+            <i class="pi pi-eye"></i> Previsualizar
+          </button>
         </div>
       </p-card>
     }
 
     @case ('preview') {
-      <p-card header="Previsualizar importacao">
+      <p-card>
         <div class="summary-row">
-          <p-tag [value]="validPreviewRows().length + ' validas'" severity="success"></p-tag>
-          <p-tag [value]="invalidPreviewRows().length + ' com erro'" severity="danger"></p-tag>
+          <span class="badge-valid"><i class="pi pi-check-circle"></i> {{ validPreviewRows().length }} validas</span>
+          <span class="badge-invalid"><i class="pi pi-times-circle"></i> {{ invalidPreviewRows().length }} com erro</span>
 
-          <label for="importAccount">Conta destino</label>
+          <label for="importAccount" style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-soft);">Conta destino</label>
           <p-select
             inputId="importAccount"
             [options]="store.accounts()"
@@ -102,10 +136,10 @@
             <tr [class.row-invalid]="!row.parsed.valid">
               <td>
                 @if (row.parsed.valid) {
-                  <i class="pi pi-check-circle" style="color: #16a34a"></i>
+                  <i class="pi pi-check-circle" style="color: var(--income-500)"></i>
                 } @else {
                   <span [title]="row.parsed.validationError">
-                    <i class="pi pi-times-circle" style="color: #dc2626"></i>
+                    <i class="pi pi-times-circle" style="color: var(--expense-500)"></i>
                   </span>
                 }
               </td>
@@ -113,34 +147,50 @@
               <td>{{ row.parsed.description }}</td>
               <td>{{ row.parsed.amount | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}</td>
               <td>
-                <p-tag
-                  [value]="row.parsed.type === 'income' ? 'Receita' : 'Despesa'"
-                  [severity]="row.parsed.type === 'income' ? 'success' : 'danger'"
-                ></p-tag>
+                <span
+                  class="type-pill"
+                  [class.type-pill--income]="row.parsed.type === 'income'"
+                  [class.type-pill--expense]="row.parsed.type === 'expense'"
+                >
+                  {{ row.parsed.type === 'income' ? 'Receita' : 'Despesa' }}
+                </span>
               </td>
             </tr>
           </ng-template>
         </p-table>
 
         <div class="footer-actions">
-          <p-button label="Voltar" severity="secondary" [text]="true" (onClick)="backToMap()"></p-button>
-          <p-button
-            [label]="'Importar ' + validPreviewRows().length + ' transacoes'"
-            icon="pi pi-file-import"
-            [loading]="importing()"
-            (onClick)="confirmImport()"
-          ></p-button>
+          <button type="button" class="btn-back" (click)="backToMap()">
+            <i class="pi pi-arrow-left"></i> Voltar
+          </button>
+          <button
+            type="button"
+            class="btn-primary"
+            [disabled]="importing()"
+            (click)="confirmImport()"
+          >
+            <i class="pi pi-file-import"></i>
+            @if (importing()) { Importando... } @else { Importar {{ validPreviewRows().length }} transacoes }
+          </button>
         </div>
       </p-card>
     }
 
     @case ('done') {
-      <p-card header="Importacao concluida">
-        <ul>
-          <li>{{ state().result?.imported }} transacoes importadas com sucesso</li>
-          <li>{{ state().result?.skipped }} linhas ignoradas por erro de validacao</li>
-        </ul>
-        <p-button label="Nova importacao" icon="pi pi-refresh" (onClick)="restart()"></p-button>
+      <p-card>
+        <div class="done-state">
+          <div class="done-state__icon">
+            <i class="pi pi-check-circle"></i>
+          </div>
+          <h3 class="done-state__title">Importacao concluida!</h3>
+          <ul class="done-state__list">
+            <li><strong>{{ state().result?.imported }}</strong> transacoes importadas com sucesso</li>
+            <li><strong>{{ state().result?.skipped }}</strong> linhas ignoradas por erro de validacao</li>
+          </ul>
+          <button type="button" class="btn-primary" (click)="restart()">
+            <i class="pi pi-refresh"></i> Nova importacao
+          </button>
+        </div>
       </p-card>
     }
   }

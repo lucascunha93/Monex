@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { MessageModule } from 'primeng/message';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
 import { CsvColumnMapping, CsvPreviewRow } from '../../core/models/csv.models';
 import { CsvParserService } from '../../core/services/csv-parser.service';
 import { FinanceStore } from '../../state/finance.store';
@@ -23,7 +20,7 @@ interface ImportState {
 @Component({
   selector: 'app-import-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardModule, ButtonModule, SelectModule, TableModule, TagModule, MessageModule],
+  imports: [CommonModule, FormsModule, CardModule, SelectModule, TableModule],
   templateUrl: './import.page.html',
   styleUrl: './import.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

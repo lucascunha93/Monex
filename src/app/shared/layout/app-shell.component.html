@@ -3,27 +3,39 @@
 <div class="shell">
   <aside class="shell__sidebar">
     <div class="brand">
-      <h1>Monex</h1>
-      <p>Finance OS</p>
+      <div class="brand__icon">
+        <i class="pi pi-chart-line"></i>
+      </div>
+      <div>
+        <h1 class="brand__name">Monex</h1>
+        <p class="brand__sub">Finance OS</p>
+      </div>
     </div>
 
-    <nav>
+    <nav class="nav">
       @for (item of navItems; track item.route) {
-        <a [routerLink]="item.route" routerLinkActive="active">
-          <i [class]="item.icon"></i>
-          <span>{{ item.label }}</span>
+        <a [routerLink]="item.route" routerLinkActive="active" class="nav__item">
+          <span class="nav__icon"><i [class]="item.icon"></i></span>
+          <span class="nav__label">{{ item.label }}</span>
         </a>
       }
     </nav>
 
-    <p-tag [value]="statusLabel()" [severity]="sync.isOnline() ? 'success' : 'warn'"></p-tag>
+    <div class="sidebar__footer">
+      <div class="status-dot" [class.status-dot--online]="sync.isOnline()">
+        <span class="status-dot__circle"></span>
+        <span>{{ statusLabel() }}</span>
+      </div>
 
-    <div class="user-info">
-      <i class="pi pi-user"></i>
-      <span class="user-name">{{ currentUserName() }}</span>
-      <button type="button" class="logout-btn" title="Sair" (click)="logout()">
-        <i class="pi pi-sign-out"></i>
-      </button>
+      <div class="user-info">
+        <div class="user-avatar" [title]="currentUserName()">
+          {{ currentUserName().charAt(0).toUpperCase() }}
+        </div>
+        <span class="user-name">{{ currentUserName() }}</span>
+        <button type="button" class="logout-btn" title="Sair" (click)="logout()">
+          <i class="pi pi-sign-out"></i>
+        </button>
+      </div>
     </div>
   </aside>
 
@@ -32,15 +44,14 @@
   </main>
 </div>
 
-<p-button
-  icon="pi pi-plus"
-  severity="contrast"
-  styleClass="floating-add"
-  (onClick)="showDialog.set(true)"
-  [rounded]="true"
-  [raised]="true"
-  ariaLabel="Adicionar transacao"
-></p-button>
+<button
+  type="button"
+  class="floating-add"
+  (click)="showDialog.set(true)"
+  aria-label="Adicionar transacao"
+>
+  <i class="pi pi-plus"></i>
+</button>
 
 <app-transaction-dialog
   [visible]="showDialog()"

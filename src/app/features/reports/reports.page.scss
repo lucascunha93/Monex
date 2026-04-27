@@ -1,32 +1,191 @@
 .reports {
   display: grid;
+  gap: 1.25rem;
+}
+
+/* ── Insights grid ───────────────────────────────────────────────────────── */
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
-h2 {
-  margin: 0;
+.insight-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--surface-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(8px);
 }
 
-ul {
-  margin: 0;
-  padding-left: 1.2rem;
-  display: grid;
-  gap: 0.3rem;
+.insight-card__icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-md);
+  background: var(--income-bg);
+  color: var(--income-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+
+  &--purple { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
+  &--blue   { background: var(--brand-50); color: var(--brand-700); }
+}
+
+.insight-card--danger .insight-card__icon {
+  background: var(--expense-bg);
+  color: var(--expense-600);
+}
+
+.insight-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.insight-card__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+}
+
+.insight-card__value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ── Goal form ───────────────────────────────────────────────────────────── */
+.card-section-title {
+  padding: 1.25rem 1.5rem 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-soft);
 }
 
 .goal-form {
   display: grid;
-  gap: 0.8rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  align-items: end;
 }
 
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-soft);
+  }
+}
+
+.form-field--action {
+  padding-bottom: 1px;
+}
+
+.btn-save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.2rem;
+  background: var(--brand-700);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+  white-space: nowrap;
+
+  &:hover { background: var(--brand-600); }
+}
+
+/* ── Goals grid ──────────────────────────────────────────────────────────── */
 .goals-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
 }
 
-@media (max-width: 980px) {
+.goal-card {
+  padding: 1.25rem 1.5rem;
+  background: var(--surface-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.15s, box-shadow 0.15s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.goal-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goal-card__name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.goal-card__pct {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--brand-700);
+}
+
+.goal-card__bar {
+  height: 0.5rem;
+  background: rgba(15, 23, 42, 0.07);
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+.goal-card__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-700), var(--brand-500));
+  border-radius: 2rem;
+  transition: width 0.5s ease;
+}
+
+.goal-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 960px) {
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+
   .goal-form {
     grid-template-columns: 1fr;
   }

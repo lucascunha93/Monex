@@ -2,79 +2,103 @@
   header="Nova transacao"
   [modal]="true"
   [visible]="visible"
-  [style]="{ width: '32rem', maxWidth: '96vw' }"
+  [style]="{ width: '34rem', maxWidth: '96vw' }"
   (visibleChange)="visibleChange.emit($event)"
 >
-  <div class="form-grid">
-    <label for="txDescription">Descricao</label>
-    <input
-      id="txDescription"
-      pInputText
-      [(ngModel)]="model.description"
-      placeholder="Ex: Mercado do mes"
-    />
+  <!-- Type toggle -->
+  <div class="type-toggle">
+    <button
+      type="button"
+      class="type-toggle__btn"
+      [class.type-toggle__btn--expense]="model.type === 'expense'"
+      [class.active]="model.type === 'expense'"
+      (click)="model.type = 'expense'; model.categoryId = 'auto'"
+    >
+      <i class="pi pi-arrow-up-right"></i> Despesa
+    </button>
+    <button
+      type="button"
+      class="type-toggle__btn"
+      [class.type-toggle__btn--income]="model.type === 'income'"
+      [class.active]="model.type === 'income'"
+      (click)="model.type = 'income'; model.categoryId = 'auto'"
+    >
+      <i class="pi pi-arrow-down-left"></i> Receita
+    </button>
+  </div>
 
-    <label for="txAmount">Valor</label>
-    <p-inputNumber
-      inputId="txAmount"
-      mode="currency"
-      currency="BRL"
-      locale="pt-BR"
-      [(ngModel)]="model.amount"
-    ></p-inputNumber>
+  <div class="dialog-form">
+    <div class="form-field form-field--full">
+      <label for="txDescription">Descricao</label>
+      <input
+        id="txDescription"
+        pInputText
+        [(ngModel)]="model.description"
+        placeholder="Ex: Mercado do mes"
+        autocomplete="off"
+      />
+    </div>
 
-    <label for="txDate">Data</label>
-    <input
-      id="txDate"
-      pInputText
-      type="date"
-      [(ngModel)]="model.date"
-    />
+    <div class="form-field">
+      <label for="txAmount">Valor</label>
+      <p-inputNumber
+        inputId="txAmount"
+        mode="currency"
+        currency="BRL"
+        locale="pt-BR"
+        [(ngModel)]="model.amount"
+      ></p-inputNumber>
+    </div>
 
-    <label for="txType">Tipo</label>
-    <p-select
-      inputId="txType"
-      [options]="[
-        { label: 'Despesa', value: 'expense' },
-        { label: 'Receita', value: 'income' }
-      ]"
-      [(ngModel)]="model.type"
-      (ngModelChange)="model.categoryId = 'auto'"
-      optionLabel="label"
-      optionValue="value"
-    ></p-select>
+    <div class="form-field">
+      <label for="txDate">Data</label>
+      <input
+        id="txDate"
+        pInputText
+        type="date"
+        [(ngModel)]="model.date"
+      />
+    </div>
 
-    <label for="txCategory">Categoria</label>
-    <p-select
-      inputId="txCategory"
-      [options]="categoryOptions()"
-      [(ngModel)]="model.categoryId"
-      optionLabel="label"
-      optionValue="value"
-    ></p-select>
+    <div class="form-field">
+      <label for="txCategory">Categoria</label>
+      <p-select
+        inputId="txCategory"
+        [options]="categoryOptions()"
+        [(ngModel)]="model.categoryId"
+        optionLabel="label"
+        optionValue="value"
+      ></p-select>
+    </div>
 
-    <label for="txAccount">Conta</label>
-    <p-select
-      inputId="txAccount"
-      [options]="accounts"
-      [(ngModel)]="model.accountId"
-      optionLabel="name"
-      optionValue="id"
-    ></p-select>
+    <div class="form-field">
+      <label for="txAccount">Conta</label>
+      <p-select
+        inputId="txAccount"
+        [options]="accounts"
+        [(ngModel)]="model.accountId"
+        optionLabel="name"
+        optionValue="id"
+      ></p-select>
+    </div>
 
-    <label for="txLocation">Local (opcional)</label>
-    <input
-      id="txLocation"
-      pInputText
-      [(ngModel)]="model.location"
-      placeholder="Ex: Sao Paulo"
-    />
+    <div class="form-field form-field--full">
+      <label for="txLocation">Local (opcional)</label>
+      <input
+        id="txLocation"
+        pInputText
+        [(ngModel)]="model.location"
+        placeholder="Ex: Sao Paulo, SP"
+      />
+    </div>
   </div>
 
   <ng-template pTemplate="footer">
     <div class="footer-actions">
-      <p-button label="Cancelar" severity="secondary" [text]="true" (onClick)="close()"></p-button>
-      <p-button label="Salvar" icon="pi pi-check" (onClick)="submit()"></p-button>
+      <button type="button" class="btn-cancel" (click)="close()">Cancelar</button>
+      <button type="button" class="btn-submit" (click)="submit()">
+        <i class="pi pi-check"></i> Salvar
+      </button>
     </div>
   </ng-template>
 </p-dialog>

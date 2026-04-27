@@ -1,58 +1,109 @@
-<section class="categories">
-  <h2>Categorias inteligentes</h2>
+<section class="categories page-section">
 
-  <p-card header="Nova categoria">
-    <div class="form-grid">
-      <input
-        pInputText
-        [(ngModel)]="draft.name"
-        placeholder="Nome"
-      />
-
-      <select [(ngModel)]="draft.type">
-        <option value="expense">Despesa</option>
-        <option value="income">Receita</option>
-        <option value="both">Ambos</option>
-      </select>
-
-      <input
-        pInputText
-        [(ngModel)]="draft.icon"
-        placeholder="Icone Prime (pi pi-tag)"
-      />
-
-      <input
-        pInputText
-        [(ngModel)]="draft.color"
-        placeholder="Cor hex"
-      />
-
-      <input
-        pInputText
-        [(ngModel)]="draft.keywords"
-        placeholder="Palavras-chave separadas por virgula"
-      />
-
-      <p-button label="Salvar categoria" (onClick)="save()"></p-button>
+  <div class="page-header">
+    <div>
+      <h2>Categorias inteligentes</h2>
+      <p>Organize seus lancamentos com categorias e palavras-chave para auto-categorizacao.</p>
     </div>
-  </p-card>
+  </div>
 
-  <p-card header="Lista de categorias">
-    <p-table [value]="store.categories()" [tableStyle]="{ 'min-width': '30rem' }">
+  <div class="categories-layout">
+
+    <!-- Form -->
+    <p-card>
       <ng-template pTemplate="header">
-        <tr>
-          <th scope="col">Nome</th>
-          <th scope="col">Tipo</th>
-          <th scope="col">Palavras-chave</th>
-        </tr>
+        <div class="card-section-title">Nova categoria</div>
       </ng-template>
-      <ng-template pTemplate="body" let-category>
-        <tr>
-          <td><i [class]="category.icon"></i> {{ category.name }}</td>
-          <td>{{ category.type }}</td>
-          <td>{{ category.keywords.join(', ') }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </p-card>
+
+      <div class="form-stack">
+        <div class="form-field">
+          <label for="catName">Nome</label>
+          <input pInputText id="catName" [(ngModel)]="draft.name" placeholder="Ex: Alimentacao" />
+        </div>
+
+        <div class="form-field">
+          <label>Tipo</label>
+          <p-select
+            [options]="typeOptions"
+            [(ngModel)]="draft.type"
+            optionLabel="label"
+            optionValue="value"
+          ></p-select>
+        </div>
+
+        <div class="form-field">
+          <label>Cor</label>
+          <div class="color-grid">
+            @for (color of presetColors; track color) {
+              <button
+                type="button"
+                class="color-swatch"
+                [style.background]="color"
+                [class.color-swatch--selected]="draft.color === color"
+                (click)="draft.color = color"
+              ></button>
+            }
+          </div>
+          <div class="color-preview-row">
+            <span class="color-preview" [style.background]="draft.color"></span>
+            <input pInputText [(ngModel)]="draft.color" placeholder="#hex" style="flex:1" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Icone</label>
+          <div class="icon-grid">
+            @for (icon of iconOptions; track icon) {
+              <button
+                type="button"
+                class="icon-swatch"
+                [class.icon-swatch--selected]="draft.icon === icon"
+                (click)="draft.icon = icon"
+              >
+                <i [class]="icon"></i>
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="catKeywords">Palavras-chave (separadas por virgula)</label>
+          <input pInputText id="catKeywords" [(ngModel)]="draft.keywords" placeholder="Ex: mercado, ifood, lanche" />
+        </div>
+
+        <button type="button" class="btn-save" (click)="save()">
+          <i class="pi pi-check"></i> Salvar categoria
+        </button>
+      </div>
+    </p-card>
+
+    <!-- Category list -->
+    <div class="cat-list">
+      <div class="cat-list__header">
+        <span>{{ store.categories().length }} categorias</span>
+      </div>
+      @if (store.categories().length === 0) {
+        <div class="empty-cats">
+          <i class="pi pi-tags"></i>
+          <p>Nenhuma categoria cadastrada.</p>
+        </div>
+      }
+      @for (cat of store.categories(); track cat.id) {
+        <div class="cat-row">
+          <div class="cat-row__icon" [style.background]="cat.color + '22'" [style.color]="cat.color">
+            <i [class]="cat.icon"></i>
+          </div>
+          <div class="cat-row__body">
+            <span class="cat-row__name">{{ cat.name }}</span>
+            <span class="cat-row__keywords text-sm text-muted">{{ cat.keywords.join(', ') || '—' }}</span>
+          </div>
+          <span class="cat-row__type-badge" [class]="'cat-badge cat-badge--' + cat.type">
+            {{ typeLabels[cat.type] }}
+          </span>
+        </div>
+      }
+    </div>
+
+  </div>
+
 </section>

@@ -1,19 +1,101 @@
-.form-grid {
+/* ── Type toggle ─────────────────────────────────────────────────────────── */
+.type-toggle {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
+  margin-bottom: 1.25rem;
 }
 
-.form-grid label {
-  margin-top: 0.25rem;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.type-toggle__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: transparent;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
   color: var(--text-soft);
+  cursor: pointer;
+  transition: all 0.18s;
+
+  &:hover { border-color: var(--text-soft); }
+
+  &--expense.active {
+    background: var(--expense-bg);
+    border-color: var(--expense-500);
+    color: var(--expense-600);
+  }
+
+  &--income.active {
+    background: var(--income-bg);
+    border-color: var(--income-500);
+    color: var(--income-600);
+  }
 }
 
+/* ── Dialog form grid ────────────────────────────────────────────────────── */
+.dialog-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  &--full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 0.76rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-soft);
+  }
+}
+
+/* ── Footer buttons ──────────────────────────────────────────────────────── */
 .footer-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 0.5rem;
+  gap: 0.6rem;
+}
+
+.btn-cancel {
+  padding: 0.6rem 1rem;
+  background: transparent;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: all 0.18s;
+
+  &:hover { background: rgba(15, 23, 42, 0.05); }
+}
+
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--brand-700);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+
+  &:hover { background: var(--brand-600); }
 }

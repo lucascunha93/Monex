@@ -1,32 +1,41 @@
-<section class="transactions">
-  <header>
-    <h2>Transacoes</h2>
-    <p-button label="Nova" icon="pi pi-plus" (onClick)="dialogOpen.set(true)"></p-button>
-  </header>
+<section class="transactions page-section">
 
+  <div class="page-header">
+    <div>
+      <h2>Transacoes</h2>
+      <p>{{ store.filteredTransactions().length }} lancamento(s) encontrado(s)</p>
+    </div>
+    <button type="button" class="btn-primary" (click)="dialogOpen.set(true)">
+      <i class="pi pi-plus"></i> Nova
+    </button>
+  </div>
+
+  <!-- Quick Entry -->
   <p-card>
     <app-quick-entry (quickParsed)="handleQuickEntry($event)"></app-quick-entry>
   </p-card>
 
+  <!-- Filters -->
   <p-card>
     <div class="filters">
-      <input
-        pInputText
-        [ngModel]="store.filters().search"
-        (ngModelChange)="store.updateFilters({ search: $event })"
-        placeholder="Buscar descricao"
-      />
+      <div class="filter-field filter-field--search">
+        <i class="pi pi-search filter-field__icon"></i>
+        <input
+          pInputText
+          [ngModel]="store.filters().search"
+          (ngModelChange)="store.updateFilters({ search: $event })"
+          placeholder="Buscar descricao..."
+          class="filter-field__input"
+        />
+      </div>
 
       <p-select
-        [options]="[
-          { label: 'Todos os tipos', value: 'all' },
-          { label: 'Receitas', value: 'income' },
-          { label: 'Despesas', value: 'expense' }
-        ]"
+        [options]="typeOptions"
         [ngModel]="store.filters().type"
         (ngModelChange)="store.updateFilters({ type: $event })"
         optionLabel="label"
         optionValue="value"
+        placeholder="Todos os tipos"
       ></p-select>
 
       <p-select
@@ -35,6 +44,7 @@
         (ngModelChange)="store.updateFilters({ categoryId: $event })"
         optionLabel="name"
         optionValue="id"
+        placeholder="Todas as categorias"
       ></p-select>
 
       <p-select
@@ -43,31 +53,65 @@
         (ngModelChange)="store.updateFilters({ accountId: $event })"
         optionLabel="name"
         optionValue="id"
+        placeholder="Todas as contas"
       ></p-select>
 
-      <p-button label="Limpar" severity="secondary" [text]="true" (onClick)="store.resetFilters()"></p-button>
+      <button type="button" class="btn-ghost" (click)="store.resetFilters()">
+        <i class="pi pi-filter-slash"></i> Limpar
+      </button>
     </div>
   </p-card>
 
+  <!-- Transaction list -->
   <p-card>
-    <cdk-virtual-scroll-viewport itemSize="78" class="virtual-list">
-      <div class="transaction-row" *cdkVirtualFor="let transaction of store.filteredTransactions(); trackBy: trackById">
-        <div>
-          <strong>{{ transaction.description }}</strong>
-          <small>{{ categoryName(transaction.categoryId) }} • {{ accountName(transaction.accountId) }}</small>
-        </div>
-
-        <div class="transaction-row__meta">
-          <p-tag [value]="transaction.type === 'income' ? 'Receita' : 'Despesa'" [severity]="transaction.type === 'income' ? 'success' : 'danger'"></p-tag>
-          <span [class.expense]="transaction.type === 'expense'">
-            {{ transaction.type === 'income' ? '+' : '-' }}{{ money(transaction.amount) }}
-          </span>
-          <small>{{ transaction.date }}</small>
-          <p-button icon="pi pi-trash" severity="danger" [text]="true" (onClick)="remove(transaction.id)"></p-button>
-        </div>
+    @if (store.filteredTransactions().length === 0) {
+      <div class="empty-state">
+        <i class="pi pi-inbox"></i>
+        <p>Nenhuma transacao encontrada.</p>
+        <button type="button" class="btn-primary" (click)="dialogOpen.set(true)">
+          <i class="pi pi-plus"></i> Adicionar primeira transacao
+        </button>
       </div>
-    </cdk-virtual-scroll-viewport>
+    } @else {
+      <cdk-virtual-scroll-viewport itemSize="76" class="virtual-list">
+        <div
+          class="tx-row"
+          *cdkVirtualFor="let tx of store.filteredTransactions(); trackBy: trackById"
+        >
+          <div class="tx-row__type-dot" [class.tx-row__type-dot--income]="tx.type === 'income'">
+            <i [class]="tx.type === 'income' ? 'pi pi-arrow-down-left' : 'pi pi-arrow-up-right'"></i>
+          </div>
+
+          <div class="tx-row__main">
+            <span class="tx-row__desc">{{ tx.description }}</span>
+            <span class="tx-row__meta">
+              <span class="cat-pill" [style.background]="catColor(tx.categoryId) + '22'" [style.color]="catColor(tx.categoryId)">
+                <i [class]="catIcon(tx.categoryId)"></i>
+                {{ categoryName(tx.categoryId) }}
+              </span>
+              &bull;
+              <span>{{ accountName(tx.accountId) }}</span>
+            </span>
+          </div>
+
+          <div class="tx-row__right">
+            <span
+              class="tx-row__amount"
+              [class.tx-row__amount--income]="tx.type === 'income'"
+              [class.tx-row__amount--expense]="tx.type === 'expense'"
+            >
+              {{ tx.type === 'income' ? '+' : '-' }}{{ money(tx.amount) }}
+            </span>
+            <span class="tx-row__date">{{ formatDate(tx.date) }}</span>
+            <button type="button" class="icon-btn icon-btn--danger" title="Excluir" (click)="remove(tx.id)">
+              <i class="pi pi-trash"></i>
+            </button>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    }
   </p-card>
+
 </section>
 
 <app-transaction-dialog

@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from 'primeng/button';
-import { TagModule } from 'primeng/tag';
 import { FinanceStore } from '../../state/finance.store';
 import { AuthService } from '../../core/services/auth.service';
 import { OfflineSyncService } from '../../core/services/offline-sync.service';
@@ -16,8 +14,6 @@ import { TransactionDialogComponent } from '../components/transaction-dialog/tra
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    ButtonModule,
-    TagModule,
     TransactionDialogComponent,
   ],
   templateUrl: './app-shell.component.html',

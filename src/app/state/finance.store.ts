@@ -194,6 +194,13 @@ export class FinanceStore {
     this.selectedMonth.set(monthKey);
   }
 
+  navigateMonth(direction: -1 | 1): void {
+    const [yearRaw, monthRaw] = this.selectedMonth().split('-');
+    const date = new Date(Number(yearRaw), Number(monthRaw) - 1 + direction, 1);
+    const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    this.selectedMonth.set(key);
+  }
+
   updateFilters(partial: Partial<TransactionFilters>): void {
     this.filters.update((current) => ({ ...current, ...partial }));
   }

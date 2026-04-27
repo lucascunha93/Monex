@@ -1,12 +1,6 @@
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
 /* Core CSS required for Ionic components to work properly */
@@ -25,57 +19,307 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 @import "primeicons/primeicons.css";
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap");
 
 /**
  * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
  */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+/* ── Design tokens ──────────────────────────────────────────────────────── */
 :root {
-	--text-soft: #475569;
-	--surface-card: rgba(255, 255, 255, 0.8);
+  /* Brand */
+  --brand-50:  #eff6ff;
+  --brand-100: #dbeafe;
+  --brand-500: #3b82f6;
+  --brand-600: #2563eb;
+  --brand-700: #1d4ed8;
+
+  /* Success / Income */
+  --income-500: #22c55e;
+  --income-600: #16a34a;
+  --income-bg:  rgba(34, 197, 94, 0.1);
+
+  /* Danger / Expense */
+  --expense-500: #ef4444;
+  --expense-600: #dc2626;
+  --expense-bg:  rgba(239, 68, 68, 0.1);
+
+  /* Neutral */
+  --text-primary:  #0f172a;
+  --text-secondary: #334155;
+  --text-soft:     #64748b;
+  --text-muted:    #94a3b8;
+
+  --border:       rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.15);
+
+  --surface-bg:   #f8fafc;
+  --surface-card: rgba(255, 255, 255, 0.82);
+  --surface-white: #ffffff;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md:  0 4px 16px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.05);
+  --shadow-lg:  0 12px 32px rgba(15, 23, 42, 0.1),  0 4px 12px rgba(15, 23, 42, 0.06);
+  --shadow-xl:  0 24px 48px rgba(15, 23, 42, 0.12);
+
+  /* Radii */
+  --radius-sm:  0.5rem;
+  --radius-md:  0.75rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.25rem;
+  --radius-2xl: 1.75rem;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
-	font-family: 'Outfit', sans-serif;
-	color: #0f172a;
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-primary);
+  background: var(--surface-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* ── PrimeNG card ───────────────────────────────────────────────────────── */
 p-card,
 .p-card {
-	border-radius: 1rem;
-	box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
-	background: var(--surface-card);
-	backdrop-filter: blur(7px);
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-md) !important;
+  background: var(--surface-card) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border) !important;
+
+  .p-card-header {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 1.25rem 1.5rem 0;
+  }
+
+  .p-card-body {
+    padding: 1rem 1.5rem 1.5rem;
+  }
 }
 
+/* ── PrimeNG button ─────────────────────────────────────────────────────── */
 .p-button {
-	border-radius: 0.8rem;
+  border-radius: var(--radius-md) !important;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
-/* ── PrimeNG base input styles (sem tema configurado) ────────────────────── */
-
+/* ── PrimeNG inputs ─────────────────────────────────────────────────────── */
 .p-inputtext {
-	width: 100%;
-	padding: 0.75rem 1rem;
-	font-size: 1rem;
-	font-family: inherit;
-	border: 1.5px solid #cbd5e1;
-	border-radius: 0.75rem;
-	background: #fff;
-	color: #0f172a;
-	outline: none;
-	transition: border-color 0.18s, box-shadow 0.18s;
-	box-sizing: border-box;
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.95rem;
+  font-family: 'Outfit', sans-serif;
+  border: 1.5px solid #cbd5e1;
+  border-radius: var(--radius-md);
+  background: var(--surface-white);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  box-sizing: border-box;
 
-	&:focus {
-		border-color: #1d4ed8;
-		box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
-	}
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus {
+    border-color: var(--brand-600);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+}
+
+.p-select {
+  width: 100%;
+  border-radius: var(--radius-md) !important;
+  border: 1.5px solid #cbd5e1 !important;
+  background: var(--surface-white) !important;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* ── PrimeNG tag ────────────────────────────────────────────────────────── */
+.p-tag {
+  border-radius: var(--radius-sm) !important;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+}
+
+/* ── PrimeNG dialog ─────────────────────────────────────────────────────── */
+.p-dialog {
+  border-radius: var(--radius-xl) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-xl) !important;
+
+  .p-dialog-header {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0 !important;
+    padding: 1.5rem !important;
+    font-weight: 700;
+  }
+
+  .p-dialog-content {
+    padding: 0 1.5rem 1rem !important;
+  }
+
+  .p-dialog-footer {
+    padding: 1rem 1.5rem 1.5rem !important;
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl) !important;
+  }
+}
+
+/* ── PrimeNG table ─────────────────────────────────────────────────────── */
+.p-datatable {
+  .p-datatable-thead > tr > th {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-soft);
+    background: transparent !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 0.75rem 1rem;
+  }
+
+  .p-datatable-tbody > tr > td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border) !important;
+    color: var(--text-secondary);
+  }
+
+  .p-datatable-tbody > tr:last-child > td {
+    border-bottom: none !important;
+  }
+
+  .p-datatable-tbody > tr:hover > td {
+    background: rgba(37, 99, 235, 0.03) !important;
+  }
+}
+
+/* ── Utility classes ────────────────────────────────────────────────────── */
+.page-section {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-header h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+}
+
+.page-header p {
+  margin: 0.25rem 0 0;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-soft);
+  }
+}
+
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge--income {
+  background: var(--income-bg);
+  color: var(--income-600);
+}
+
+.badge--expense {
+  background: var(--expense-bg);
+  color: var(--expense-600);
+}
+
+.text-income { color: var(--income-600); font-weight: 700; }
+.text-expense { color: var(--expense-600); font-weight: 700; }
+.text-soft { color: var(--text-soft); }
+.text-muted { color: var(--text-muted); }
+.text-sm { font-size: 0.85rem; }
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+
+.footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.25);
 }
 
 /* p-password: container com ícone de toggle posicionado dentro do input */

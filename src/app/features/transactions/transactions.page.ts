@@ -2,11 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { TagModule } from 'primeng/tag';
 import { FinanceStore } from '../../state/finance.store';
 import { formatCurrency } from '../../core/utils/money.util';
 import { QuickEntryComponent } from '../../shared/components/quick-entry/quick-entry.component';
@@ -22,8 +20,6 @@ import { TransactionDialogComponent } from '../../shared/components/transaction-
     CardModule,
     InputTextModule,
     SelectModule,
-    ButtonModule,
-    TagModule,
     QuickEntryComponent,
     TransactionDialogComponent,
   ],
@@ -33,12 +29,26 @@ import { TransactionDialogComponent } from '../../shared/components/transaction-
 })
 export class TransactionsPage {
   readonly dialogOpen = signal(false);
-  readonly categoryFilterOptions = computed(() => [{ name: 'Todas categorias', id: 'all' }, ...this.store.categories()]);
-  readonly accountFilterOptions = computed(() => [{ name: 'Todas contas', id: 'all' }, ...this.store.accounts()]);
+
+  readonly typeOptions = [
+    { label: 'Todos os tipos', value: 'all' },
+    { label: 'Receitas', value: 'income' },
+    { label: 'Despesas', value: 'expense' },
+  ];
+
+  readonly categoryFilterOptions = computed(() => [
+    { name: 'Todas as categorias', id: 'all' },
+    ...this.store.categories(),
+  ]);
+
+  readonly accountFilterOptions = computed(() => [
+    { name: 'Todas as contas', id: 'all' },
+    ...this.store.accounts(),
+  ]);
 
   constructor(public readonly store: FinanceStore) {}
 
-  trackById(index: number, item: { id: string }): string {
+  trackById(_: number, item: { id: string }): string {
     return item.id;
   }
 
@@ -47,18 +57,29 @@ export class TransactionsPage {
   }
 
   categoryName(id: string): string {
-    return this.store.categories().find((category) => category.id === id)?.name ?? 'Sem categoria';
+    return this.store.categories().find((c) => c.id === id)?.name ?? 'Sem categoria';
+  }
+
+  catColor(id: string): string {
+    return this.store.categories().find((c) => c.id === id)?.color ?? '#94a3b8';
+  }
+
+  catIcon(id: string): string {
+    return this.store.categories().find((c) => c.id === id)?.icon ?? 'pi pi-tag';
   }
 
   accountName(id: string): string {
-    return this.store.accounts().find((account) => account.id === id)?.name ?? 'Sem conta';
+    return this.store.accounts().find((a) => a.id === id)?.name ?? 'Sem conta';
+  }
+
+  formatDate(isoDate: string): string {
+    const [year, month, day] = isoDate.split('-');
+    return `${day}/${month}/${year}`;
   }
 
   async handleQuickEntry(event: { description: string; amount: number; inferredType: 'income' | 'expense' }): Promise<void> {
     const account = this.store.accounts()[0];
-    if (!account) {
-      return;
-    }
+    if (!account) return;
 
     await this.store.addTransaction({
       description: event.description,

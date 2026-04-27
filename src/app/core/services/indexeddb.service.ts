@@ -14,7 +14,7 @@ type StoreName =
 })
 export class IndexedDbService {
   private userId = 'anonymous';
-  private readonly version = 1;
+  private readonly version = 2;
   private dbPromise: Promise<IDBDatabase> | null = null;
 
   private get dbName(): string {
