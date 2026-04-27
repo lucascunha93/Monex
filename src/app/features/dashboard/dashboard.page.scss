@@ -3,7 +3,6 @@
   gap: 1.25rem;
 }
 
-/* ── Insight badge ──────────────────────────────────────────────────────── */
 .insight-badge {
   display: inline-flex;
   align-items: center;
@@ -22,7 +21,6 @@
   }
 }
 
-/* ── Month navigator ────────────────────────────────────────────────────── */
 .month-nav {
   display: flex;
   align-items: center;
@@ -64,7 +62,6 @@
   }
 }
 
-/* ── KPI cards ──────────────────────────────────────────────────────────── */
 .kpis {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -130,7 +127,6 @@
   &--danger { color: var(--expense-600); }
 }
 
-/* ── Charts ─────────────────────────────────────────────────────────────── */
 .charts {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
@@ -159,14 +155,12 @@
   p { font-size: 0.9rem; margin: 0; }
 }
 
-/* ── Bottom grid ────────────────────────────────────────────────────────── */
 .bottom-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
 }
 
-/* ── Category bar ────────────────────────────────────────────────────────── */
 .category-bar {
   display: grid;
   gap: 0.3rem;
@@ -219,7 +213,6 @@
   text-align: right;
 }
 
-/* ── Recent transactions ────────────────────────────────────────────────── */
 .recent-tx {
   display: flex;
   align-items: center;
@@ -275,7 +268,6 @@
   white-space: nowrap;
 }
 
-/* ── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 1200px) {
   .kpis {
     grid-template-columns: repeat(2, minmax(0, 1fr));

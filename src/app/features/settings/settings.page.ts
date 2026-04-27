@@ -36,7 +36,6 @@ export class SettingsPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Re-sync model in case store.init() loaded settings after component creation
     this.model = { ...this.store.settings() };
     this.cdr.markForCheck();
   }
@@ -49,7 +48,6 @@ export class SettingsPage implements OnInit {
     this.model = { ...this.store.settings() };
     this.cdr.markForCheck();
 
-    // Locale/currency require a full reload because Angular's LOCALE_ID is static
     if (this.model.locale !== prevLocale || this.model.currency !== prevCurrency) {
       window.location.reload();
     }

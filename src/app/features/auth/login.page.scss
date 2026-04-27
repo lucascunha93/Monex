@@ -60,7 +60,6 @@ h2 {
   }
 }
 
-/* Inputs dentro do card — dark style */
 :host ::ng-deep .login-card .p-inputtext {
   background: rgba(255, 255, 255, 0.07);
   border: 1.5px solid rgba(255, 255, 255, 0.12);
@@ -80,7 +79,6 @@ h2 {
   }
 }
 
-/* Ícone toggle dentro do campo de senha */
 :host ::ng-deep .login-card .p-password-mask-icon,
 :host ::ng-deep .login-card .p-password-unmask-icon,
 :host ::ng-deep .login-card .p-password-toggle-icon {
@@ -91,7 +89,6 @@ h2 {
   }
 }
 
-/* Botão principal */
 :host ::ng-deep .login-card .p-button {
   display: flex;
   align-items: center;

@@ -1,18 +1,10 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- */
-
-/* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
 
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
@@ -21,31 +13,21 @@
 @import "primeicons/primeicons.css";
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap");
 
-/**
- * Ionic Dark Mode — disabled: app is light-only
- */
-/* @import '@ionic/angular/css/palettes/dark.system.css'; */
-
-/* ── Design tokens ──────────────────────────────────────────────────────── */
 :root {
-  /* Brand */
   --brand-50:  #eff6ff;
   --brand-100: #dbeafe;
   --brand-500: #3b82f6;
   --brand-600: #2563eb;
   --brand-700: #1d4ed8;
 
-  /* Success / Income */
   --income-500: #22c55e;
   --income-600: #16a34a;
   --income-bg:  rgba(34, 197, 94, 0.1);
 
-  /* Danger / Expense */
   --expense-500: #ef4444;
   --expense-600: #dc2626;
   --expense-bg:  rgba(239, 68, 68, 0.1);
 
-  /* Neutral */
   --text-primary:  #0f172a;
   --text-secondary: #334155;
   --text-soft:     #64748b;
@@ -58,20 +40,17 @@
   --surface-card: rgba(255, 255, 255, 0.82);
   --surface-white: #ffffff;
 
-  /* Shadows */
   --shadow-sm:  0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
   --shadow-md:  0 4px 16px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.05);
   --shadow-lg:  0 12px 32px rgba(15, 23, 42, 0.1),  0 4px 12px rgba(15, 23, 42, 0.06);
   --shadow-xl:  0 24px 48px rgba(15, 23, 42, 0.12);
 
-  /* Radii */
   --radius-sm:  0.5rem;
   --radius-md:  0.75rem;
   --radius-lg:  1rem;
   --radius-xl:  1.25rem;
   --radius-2xl: 1.75rem;
 
-  /* Spacing scale */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -81,7 +60,6 @@
   --space-8: 2rem;
 }
 
-/* ── Base ───────────────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -94,7 +72,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Dark mode ──────────────────────────────────────────────────────────── */
 body.dark-mode {
   --text-primary:   #f1f5f9;
   --text-secondary: #cbd5e1;
@@ -116,14 +93,12 @@ body.dark-mode {
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
 
-  /* Cards — ensure solid dark background */
   .p-card,
   p-card {
     background: rgba(30, 41, 59, 0.95) !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
   }
 
-  /* Input overrides */
   .p-inputtext,
   .p-inputnumber-input {
     background: #1e293b !important;
@@ -145,7 +120,6 @@ body.dark-mode {
     .p-select-option:hover { background: rgba(255,255,255,0.06) !important; }
   }
 
-  /* Dialog */
   .p-dialog,
   .p-dialog-header,
   .p-dialog-content,
@@ -162,7 +136,6 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-/* ── PrimeNG card ───────────────────────────────────────────────────────── */
 p-card,
 .p-card {
   border-radius: var(--radius-xl) !important;
@@ -185,7 +158,6 @@ p-card,
   }
 }
 
-/* ── PrimeNG button ─────────────────────────────────────────────────────── */
 .p-button {
   border-radius: var(--radius-md) !important;
   font-family: 'Outfit', sans-serif;
@@ -193,7 +165,6 @@ p-card,
   letter-spacing: -0.01em;
 }
 
-/* ── PrimeNG inputs ─────────────────────────────────────────────────────── */
 :root {
   --p-inputtext-border-color: #cbd5e1;
   --p-inputtext-hover-border-color: #94a3b8;
@@ -242,14 +213,12 @@ p-card,
   }
 }
 
-/* ── PrimeNG tag ────────────────────────────────────────────────────────── */
 .p-tag {
   border-radius: var(--radius-sm) !important;
   font-family: 'Outfit', sans-serif;
   font-weight: 600;
 }
 
-/* ── PrimeNG dialog ─────────────────────────────────────────────────────── */
 .p-dialog {
   border-radius: var(--radius-xl) !important;
   border: 1px solid var(--border) !important;
@@ -277,7 +246,6 @@ p-card,
   }
 }
 
-/* ── PrimeNG table ─────────────────────────────────────────────────────── */
 .p-datatable {
   .p-datatable-thead > tr > th {
     font-size: 0.8rem;
@@ -305,7 +273,6 @@ p-card,
   }
 }
 
-/* ── Utility classes ────────────────────────────────────────────────────── */
 .page-section {
   display: grid;
   gap: 1.25rem;
@@ -390,7 +357,6 @@ p-card,
   margin-top: 0.5rem;
 }
 
-/* ── Scrollbar ──────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -406,7 +372,6 @@ p-card,
   background: rgba(15, 23, 42, 0.25);
 }
 
-/* p-password: container com ícone de toggle posicionado dentro do input */
 p-password {
 	display: block;
 	width: 100%;
@@ -420,7 +385,7 @@ p-password {
 
 	.p-inputtext {
 		flex: 1;
-		padding-right: 2.8rem; /* espaço para o ícone */
+		padding-right: 2.8rem;
 	}
 
 	.p-password-toggle-icon,
@@ -444,7 +409,6 @@ p-password {
 	}
 }
 
-/* p-select (dropdown) */
 .p-select,
 p-select {
   .p-select-label {

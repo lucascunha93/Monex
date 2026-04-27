@@ -3,7 +3,7 @@
   min-height: 100dvh;
 }
 
-/* ── Background ──────────────────────────────────────────────────────────── */
+
 .shell-bg {
   position: fixed;
   inset: 0;
@@ -15,14 +15,14 @@
   z-index: -1;
 }
 
-/* ── Shell layout ────────────────────────────────────────────────────────── */
+
 .shell {
   display: grid;
   grid-template-columns: 15.5rem minmax(0, 1fr);
   min-height: 100dvh;
 }
 
-/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+
 .shell__sidebar {
   display: flex;
   flex-direction: column;
@@ -37,7 +37,7 @@
   overflow-y: auto;
 }
 
-/* ── Brand ───────────────────────────────────────────────────────────────── */
+
 .brand {
   display: flex;
   align-items: center;
@@ -78,7 +78,7 @@
   text-transform: uppercase;
 }
 
-/* ── Nav ─────────────────────────────────────────────────────────────────── */
+
 .nav {
   display: flex;
   flex-direction: column;
@@ -131,7 +131,7 @@
   color: var(--brand-600);
 }
 
-/* ── Sidebar footer ──────────────────────────────────────────────────────── */
+
 .sidebar__footer {
   display: flex;
   flex-direction: column;
@@ -218,13 +218,13 @@
   }
 }
 
-/* ── Content area ────────────────────────────────────────────────────────── */
+
 .shell__content {
   padding: 1.75rem;
   min-height: 100dvh;
 }
 
-/* ── Floating add button ─────────────────────────────────────────────────── */
+
 .floating-add {
   position: fixed;
   right: 1.5rem;
@@ -254,7 +254,7 @@
   }
 }
 
-/* ── Responsive ──────────────────────────────────────────────────────────── */
+
 @media (max-width: 960px) {
   .shell {
     grid-template-columns: 1fr;
@@ -323,7 +323,6 @@
   }
 }
 
-/* ── Dark mode ──────────────────────────────────────────────────────────── */
 :host-context(body.dark-mode) {
   .shell-bg {
     background:

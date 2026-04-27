@@ -3,7 +3,6 @@
   gap: 1.25rem;
 }
 
-/* ── Insights grid ───────────────────────────────────────────────────────── */
 .insights-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -63,7 +62,6 @@
   color: var(--text-primary);
 }
 
-/* ── Goal form ───────────────────────────────────────────────────────────── */
 .card-section-title {
   padding: 1.25rem 1.5rem 0.75rem;
   font-size: 1rem;
@@ -119,7 +117,6 @@
   &:hover { background: var(--brand-600); }
 }
 
-/* ── Goals grid ──────────────────────────────────────────────────────────── */
 .goals-grid {
   display: grid;
   gap: 1rem;

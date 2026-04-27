@@ -12,7 +12,6 @@ import Aura from '@primeuix/themes/aura';
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 
-// Read saved settings from localStorage before Angular boots (LOCALE_ID must be static)
 let savedLocale = 'pt-BR';
 let savedDarkMode = false;
 try {
@@ -22,9 +21,8 @@ try {
     if (parsed.locale) savedLocale = parsed.locale;
     if (parsed.darkMode) savedDarkMode = parsed.darkMode;
   }
-} catch { /* ignore */ }
+} catch {}
 
-// Apply dark mode class immediately so there's no flash on load
 if (savedDarkMode) {
   document.body.classList.add('dark-mode');
 }

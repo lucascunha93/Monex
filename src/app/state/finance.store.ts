@@ -181,7 +181,6 @@ export class FinanceStore {
       if (settingsList.length) {
         const { id: _id, ...settings } = settingsList[0];
         this.settings.set(settings);
-        // Persist to localStorage so main.ts can read locale/darkMode before bootstrap
         localStorage.setItem('monex_settings', JSON.stringify(settings));
       }
 
@@ -297,7 +296,6 @@ export class FinanceStore {
     this.categories.set([]);
     this.recurringRules.set([]);
     this.goals.set([]);
-    // Restore from localStorage so settings survive user switching / clear
     try {
       const stored = localStorage.getItem('monex_settings');
       this.settings.set(stored ? JSON.parse(stored) : { locale: 'pt-BR', currency: 'BRL', darkMode: false });

@@ -105,21 +105,17 @@ export class CsvParserService {
   parseDate(raw: string): string | null {
     if (!raw) return null;
 
-    // YYYY-MM-DD
     if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
 
-    // DD/MM/YYYY or DD-MM-YYYY
     const brMatch = raw.match(/^(\d{2})[/-](\d{2})[/-](\d{4})$/);
     if (brMatch) return `${brMatch[3]}-${brMatch[2]}-${brMatch[1]}`;
 
-    // MM/DD/YYYY (US format)
     const usMatch = raw.match(/^(\d{2})[/-](\d{2})[/-](\d{4})$/);
     if (usMatch) {
       const d = new Date(`${usMatch[3]}-${usMatch[1]}-${usMatch[2]}`);
       if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
     }
 
-    // Try native parse as last resort
     const native = new Date(raw);
     if (!isNaN(native.getTime())) return native.toISOString().slice(0, 10);
 
@@ -129,18 +125,14 @@ export class CsvParserService {
   parseAmount(raw: string): number {
     if (!raw) return 0;
 
-    // Remove currency symbol and spaces
     let cleaned = raw.replace(/[R$\s]/g, '');
 
-    // Handle negative amounts presented with parentheses: (1.234,56)
     const isParenNegative = /^\(.*\)$/.test(cleaned);
     cleaned = cleaned.replace(/[()]/g, '');
 
-    // Detect Brazilian format (1.234,56 → dot is thousands, comma is decimal)
     if (/^\d{1,3}(\.\d{3})*(,\d{1,2})?$/.test(cleaned)) {
       cleaned = cleaned.replace(/\./g, '').replace(',', '.');
     } else {
-      // US/ISO format (1,234.56)
       cleaned = cleaned.replace(/,/g, '');
     }
 

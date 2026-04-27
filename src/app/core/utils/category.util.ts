@@ -1,12 +1,5 @@
 import { Category, Transaction, TransactionType } from '../models/finance.models';
 
-/**
- * Resolves a category ID for a transaction using two strategies:
- * 1. Keyword matching against category keywords (priority)
- * 2. History matching — finds a prior transaction with similar description
- *
- * Returns `undefined` if no match found, so callers can apply a fallback.
- */
 export function resolveCategoryId(
   description: string,
   type: TransactionType,
@@ -31,10 +24,6 @@ export function resolveCategoryId(
   return fromHistory?.categoryId;
 }
 
-/**
- * Returns the fallback category ID for a given type.
- * Picks the first category matching the type, then falls back to `'both'`, then the first category.
- */
 export function fallbackCategoryId(type: TransactionType, categories: Category[]): string {
   const candidate = categories.find((c) => c.type === type || c.type === 'both');
   return candidate?.id ?? categories[0]?.id ?? '';

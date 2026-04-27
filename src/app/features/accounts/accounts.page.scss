@@ -10,7 +10,7 @@
   align-items: start;
 }
 
-/* ── Form ────────────────────────────────────────────────────────────────── */
+
 .card-section-title {
   padding: 1.25rem 1.5rem 0.75rem;
   font-size: 1rem;
@@ -83,7 +83,6 @@
   &:hover { background: var(--brand-600); }
 }
 
-/* ── Accounts list ───────────────────────────────────────────────────────── */
 .accounts-list {
   display: flex;
   flex-direction: column;

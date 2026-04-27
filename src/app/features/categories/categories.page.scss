@@ -40,7 +40,7 @@
   }
 }
 
-/* ── Color picker ────────────────────────────────────────────────────────── */
+
 .color-grid {
   display: flex;
   gap: 0.5rem;
@@ -77,7 +77,7 @@
   border: 1px solid var(--border);
 }
 
-/* ── Icon picker ─────────────────────────────────────────────────────────── */
+
 .icon-grid {
   display: flex;
   gap: 0.4rem;
@@ -111,7 +111,7 @@
   }
 }
 
-/* ── Save button ─────────────────────────────────────────────────────────── */
+
 .btn-save {
   display: inline-flex;
   align-items: center;
@@ -132,7 +132,7 @@
   &:hover { background: var(--brand-600); }
 }
 
-/* ── Category list ───────────────────────────────────────────────────────── */
+
 .cat-list {
   display: flex;
   flex-direction: column;

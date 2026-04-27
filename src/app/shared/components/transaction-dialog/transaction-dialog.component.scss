@@ -1,4 +1,3 @@
-/* ── Type toggle ─────────────────────────────────────────────────────────── */
 .type-toggle {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -37,7 +36,6 @@
   }
 }
 
-/* ── Dialog form grid ────────────────────────────────────────────────────── */
 .dialog-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -60,7 +58,6 @@
   }
 }
 
-/* ── Footer buttons ──────────────────────────────────────────────────────── */
 .footer-actions {
   display: flex;
   justify-content: flex-end;

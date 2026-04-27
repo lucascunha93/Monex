@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
     private readonly store: FinanceStore,
     private readonly router: Router,
   ) {
-    // Apply dark-mode class globally whenever the setting changes or on startup
     effect(() => {
       const { darkMode } = this.store.settings();
       document.body.classList.toggle('dark-mode', darkMode);
