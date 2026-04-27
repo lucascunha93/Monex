@@ -112,6 +112,18 @@ body.dark-mode {
   --income-bg: rgba(34, 197, 94, 0.15);
   --expense-bg: rgba(239, 68, 68, 0.15);
 
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+
+  /* Cards — ensure solid dark background */
+  .p-card,
+  p-card {
+    background: rgba(30, 41, 59, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* Input overrides */
   .p-inputtext,
   .p-inputnumber-input {
     background: #1e293b !important;
@@ -130,6 +142,16 @@ body.dark-mode {
     border-color: rgba(255, 255, 255, 0.14) !important;
     .p-select-list { background: #1e293b !important; }
     .p-select-option { color: #cbd5e1 !important; }
+    .p-select-option:hover { background: rgba(255,255,255,0.06) !important; }
+  }
+
+  /* Dialog */
+  .p-dialog,
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-dialog-footer {
+    background: #1e293b !important;
+    color: #f1f5f9 !important;
   }
 }
 
