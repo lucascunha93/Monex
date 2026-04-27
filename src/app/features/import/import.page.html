@@ -56,6 +56,7 @@
             [options]="state().headers"
             [ngModel]="state().mapping.dateColumn"
             (ngModelChange)="updateMapping('dateColumn', $event)"
+            appendTo="body"
           ></p-select>
 
           <label for="mapDesc">Coluna de descricao</label>
@@ -64,6 +65,7 @@
             [options]="state().headers"
             [ngModel]="state().mapping.descriptionColumn"
             (ngModelChange)="updateMapping('descriptionColumn', $event)"
+            appendTo="body"
           ></p-select>
 
           <label for="mapAmount">Coluna de valor</label>
@@ -72,6 +74,7 @@
             [options]="state().headers"
             [ngModel]="state().mapping.amountColumn"
             (ngModelChange)="updateMapping('amountColumn', $event)"
+            appendTo="body"
           ></p-select>
 
           <label for="mapType">Coluna de tipo (opcional)</label>
@@ -82,6 +85,7 @@
             (ngModelChange)="updateMapping('typeColumn', $event)"
             optionLabel="label"
             optionValue="value"
+            appendTo="body"
           ></p-select>
 
           <label for="mapDefaultType">Tipo padrao</label>
@@ -92,6 +96,7 @@
             (ngModelChange)="updateMapping('defaultType', $event)"
             optionLabel="label"
             optionValue="value"
+            appendTo="body"
           ></p-select>
         </div>
 
@@ -119,6 +124,7 @@
             [(ngModel)]="selectedAccountId"
             optionLabel="name"
             optionValue="id"
+            appendTo="body"
           ></p-select>
         </div>
 

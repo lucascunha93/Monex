@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -8,7 +8,6 @@ import { SelectModule } from 'primeng/select';
 import { FinanceStore } from '../../state/finance.store';
 import { formatCurrency } from '../../core/utils/money.util';
 import { QuickEntryComponent } from '../../shared/components/quick-entry/quick-entry.component';
-import { TransactionDialogComponent } from '../../shared/components/transaction-dialog/transaction-dialog.component';
 
 @Component({
   selector: 'app-transactions-page',
@@ -21,15 +20,12 @@ import { TransactionDialogComponent } from '../../shared/components/transaction-
     InputTextModule,
     SelectModule,
     QuickEntryComponent,
-    TransactionDialogComponent,
   ],
   templateUrl: './transactions.page.html',
   styleUrl: './transactions.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionsPage {
-  readonly dialogOpen = signal(false);
-
   readonly typeOptions = [
     { label: 'Todos os tipos', value: 'all' },
     { label: 'Receitas', value: 'income' },
@@ -88,18 +84,6 @@ export class TransactionsPage {
       date: new Date().toISOString().slice(0, 10),
       accountId: account.id,
     });
-  }
-
-  async handleDialogSubmit(payload: {
-    description: string;
-    amount: number;
-    date: string;
-    type: 'income' | 'expense';
-    categoryId?: string;
-    accountId: string;
-    location?: string;
-  }): Promise<void> {
-    await this.store.addTransaction(payload);
   }
 
   async remove(id: string): Promise<void> {

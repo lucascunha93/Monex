@@ -5,9 +5,6 @@
       <h2>Transacoes</h2>
       <p>{{ store.filteredTransactions().length }} lancamento(s) encontrado(s)</p>
     </div>
-    <button type="button" class="btn-primary" (click)="dialogOpen.set(true)">
-      <i class="pi pi-plus"></i> Nova
-    </button>
   </div>
 
   <!-- Quick Entry -->
@@ -36,6 +33,7 @@
         optionLabel="label"
         optionValue="value"
         placeholder="Todos os tipos"
+        appendTo="body"
       ></p-select>
 
       <p-select
@@ -45,6 +43,7 @@
         optionLabel="name"
         optionValue="id"
         placeholder="Todas as categorias"
+        appendTo="body"
       ></p-select>
 
       <p-select
@@ -54,6 +53,7 @@
         optionLabel="name"
         optionValue="id"
         placeholder="Todas as contas"
+        appendTo="body"
       ></p-select>
 
       <button type="button" class="btn-ghost" (click)="store.resetFilters()">
@@ -68,9 +68,6 @@
       <div class="empty-state">
         <i class="pi pi-inbox"></i>
         <p>Nenhuma transacao encontrada.</p>
-        <button type="button" class="btn-primary" (click)="dialogOpen.set(true)">
-          <i class="pi pi-plus"></i> Adicionar primeira transacao
-        </button>
       </div>
     } @else {
       <cdk-virtual-scroll-viewport itemSize="76" class="virtual-list">
@@ -113,11 +110,3 @@
   </p-card>
 
 </section>
-
-<app-transaction-dialog
-  [visible]="dialogOpen()"
-  [accounts]="store.accounts()"
-  [categories]="store.categories()"
-  (visibleChange)="dialogOpen.set($event)"
-  (submitted)="handleDialogSubmit($event)"
-></app-transaction-dialog>

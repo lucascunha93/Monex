@@ -120,7 +120,7 @@ p-card,
   }
 
   .p-card-body {
-    padding: 1rem 1.5rem 1.5rem;
+    padding: 1.25rem 1.5rem;
   }
 }
 
@@ -176,20 +176,26 @@ p-card,
   border-radius: var(--radius-xl) !important;
   border: 1px solid var(--border) !important;
   box-shadow: var(--shadow-xl) !important;
+  background: var(--surface-card) !important;
 
   .p-dialog-header {
     border-radius: var(--radius-xl) var(--radius-xl) 0 0 !important;
     padding: 1.5rem !important;
     font-weight: 700;
+    background: var(--surface-card) !important;
+    color: var(--text-primary) !important;
   }
 
   .p-dialog-content {
     padding: 0 1.5rem 1rem !important;
+    background: var(--surface-card) !important;
+    color: var(--text-secondary) !important;
   }
 
   .p-dialog-footer {
     padding: 1rem 1.5rem 1.5rem !important;
     border-radius: 0 0 var(--radius-xl) var(--radius-xl) !important;
+    background: var(--surface-card) !important;
   }
 }
 
@@ -363,7 +369,37 @@ p-password {
 /* p-select (dropdown) */
 .p-select,
 p-select {
-	.p-select-label {
-		padding: 0.6rem 0.8rem;
-	}
+  .p-select-label {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .p-select-dropdown {
+    width: 2.2rem;
+    padding-right: 0.5rem;
+  }
+}
+
+.p-select-overlay {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+
+  .p-select-list {
+    background: var(--surface-card) !important;
+    padding: 0.25rem !important;
+  }
+
+  .p-select-option {
+    border-radius: var(--radius-sm) !important;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-secondary) !important;
+	padding-left: 6px;
+
+    &.p-select-option-selected,
+    &:hover {
+      background: var(--brand-50) !important;
+      color: var(--brand-700) !important;
+    }
+  }
 }
