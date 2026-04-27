@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -15,7 +15,7 @@ import { OfflineSyncService } from '../../core/services/offline-sync.service';
   styleUrl: './settings.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SettingsPage {
+export class SettingsPage implements OnInit {
   model = { ...this.store.settings() };
 
   readonly localeOptions = [
@@ -32,10 +32,27 @@ export class SettingsPage {
   constructor(
     public readonly store: FinanceStore,
     public readonly sync: OfflineSyncService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
+  ngOnInit(): void {
+    // Re-sync model in case store.init() loaded settings after component creation
+    this.model = { ...this.store.settings() };
+    this.cdr.markForCheck();
+  }
+
   async save(): Promise<void> {
-    await this.store.saveSettings(this.model);
+    const prevLocale = this.store.settings().locale;
+    const prevCurrency = this.store.settings().currency;
+
+    await this.store.saveSettings({ ...this.model });
+    this.model = { ...this.store.settings() };
+    this.cdr.markForCheck();
+
+    // Locale/currency require a full reload because Angular's LOCALE_ID is static
+    if (this.model.locale !== prevLocale || this.model.currency !== prevCurrency) {
+      window.location.reload();
+    }
   }
 
   async syncNow(): Promise<void> {

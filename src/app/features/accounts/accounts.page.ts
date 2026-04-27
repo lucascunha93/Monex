@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -6,6 +6,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { createId } from '../../core/utils/id.util';
+import { formatCurrency } from '../../core/utils/money.util';
 import { FinanceStore } from '../../state/finance.store';
 
 @Component({
@@ -50,7 +51,14 @@ export class AccountsPage {
     color: '#1d4ed8',
   };
 
+  readonly locale = computed(() => this.store.settings().locale);
+  readonly currency = computed(() => this.store.settings().currency);
+
   constructor(public readonly store: FinanceStore) {}
+
+  money(value: number): string {
+    return formatCurrency(value, this.store.settings().locale, this.store.settings().currency);
+  }
 
   async save(): Promise<void> {
     const model = this.draft;

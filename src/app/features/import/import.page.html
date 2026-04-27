@@ -151,7 +151,7 @@
               </td>
               <td>{{ row.parsed.date }}</td>
               <td>{{ row.parsed.description }}</td>
-              <td>{{ row.parsed.amount | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}</td>
+              <td>{{ money(row.parsed.amount) }}</td>
               <td>
                 <span
                   class="type-pill"

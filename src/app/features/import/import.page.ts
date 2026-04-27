@@ -61,6 +61,14 @@ export class ImportPage {
     }
   }
 
+  money(value: number): string {
+    return new Intl.NumberFormat(this.store.settings().locale, {
+      style: 'currency',
+      currency: this.store.settings().currency,
+      maximumFractionDigits: 2,
+    }).format(value);
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];

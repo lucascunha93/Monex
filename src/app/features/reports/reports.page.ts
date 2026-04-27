@@ -25,6 +25,8 @@ export class ReportsPage {
 
   readonly projectedBalance = computed(() => this.store.consolidatedBalance() + (this.store.currentMonthIncome() - this.store.currentMonthExpense()) * 3);
   readonly topCategoryName = computed(() => this.store.insights().topCategory?.category?.name ?? 'Sem dados');
+  readonly locale = computed(() => this.store.settings().locale);
+  readonly currency = computed(() => this.store.settings().currency);
 
   constructor(public readonly store: FinanceStore) {}
 

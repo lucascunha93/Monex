@@ -54,11 +54,11 @@
       </div>
       <div class="form-field">
         <label for="goalTarget">Valor alvo</label>
-        <p-inputNumber inputId="goalTarget" mode="currency" currency="BRL" locale="pt-BR" [(ngModel)]="draftGoal.targetAmount"></p-inputNumber>
+        <p-inputNumber inputId="goalTarget" mode="currency" [currency]="currency()" [locale]="locale()" [(ngModel)]="draftGoal.targetAmount"></p-inputNumber>
       </div>
       <div class="form-field">
         <label for="goalCurrent">Valor atual</label>
-        <p-inputNumber inputId="goalCurrent" mode="currency" currency="BRL" locale="pt-BR" [(ngModel)]="draftGoal.currentAmount"></p-inputNumber>
+        <p-inputNumber inputId="goalCurrent" mode="currency" [currency]="currency()" [locale]="locale()" [(ngModel)]="draftGoal.currentAmount"></p-inputNumber>
       </div>
       <div class="form-field form-field--action">
         <button type="button" class="btn-save" (click)="saveGoal()">

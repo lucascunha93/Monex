@@ -12,12 +12,13 @@
 
 /* ── Form ────────────────────────────────────────────────────────────────── */
 .card-section-title {
-  padding: 1.25rem 1.5rem 0;
-  font-size: 0.82rem;
+  padding: 1.25rem 1.5rem 0.75rem;
+  font-size: 1rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--text-soft);
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.25rem;
 }
 
 .form-stack {

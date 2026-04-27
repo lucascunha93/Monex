@@ -181,6 +181,8 @@ export class FinanceStore {
       if (settingsList.length) {
         const { id: _id, ...settings } = settingsList[0];
         this.settings.set(settings);
+        // Persist to localStorage so main.ts can read locale/darkMode before bootstrap
+        localStorage.setItem('monex_settings', JSON.stringify(settings));
       }
 
       await this.generateRecurringTransactions();
@@ -279,6 +281,7 @@ export class FinanceStore {
 
   async saveSettings(settings: UserSettings): Promise<void> {
     this.settings.set(settings);
+    localStorage.setItem('monex_settings', JSON.stringify(settings));
     await this.repository.saveSettings({ id: 'default', ...settings });
     await this.syncService.enqueue('settings:update', settings);
   }
@@ -294,7 +297,13 @@ export class FinanceStore {
     this.categories.set([]);
     this.recurringRules.set([]);
     this.goals.set([]);
-    this.settings.set({ locale: 'pt-BR', currency: 'BRL', darkMode: false });
+    // Restore from localStorage so settings survive user switching / clear
+    try {
+      const stored = localStorage.getItem('monex_settings');
+      this.settings.set(stored ? JSON.parse(stored) : { locale: 'pt-BR', currency: 'BRL', darkMode: false });
+    } catch {
+      this.settings.set({ locale: 'pt-BR', currency: 'BRL', darkMode: false });
+    }
     this.filters.set({ search: '', type: 'all', categoryId: 'all', accountId: 'all' });
     this.selectedMonth.set(getCurrentMonthKey());
   }

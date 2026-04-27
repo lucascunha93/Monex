@@ -69,8 +69,10 @@ export class TransactionsPage {
   }
 
   formatDate(isoDate: string): string {
-    const [year, month, day] = isoDate.split('-');
-    return `${day}/${month}/${year}`;
+    const [year, month, day] = isoDate.split('-').map(Number);
+    return new Intl.DateTimeFormat(this.store.settings().locale, {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+    }).format(new Date(year, month - 1, day));
   }
 
   async handleQuickEntry(event: { description: string; amount: number; inferredType: 'income' | 'expense' }): Promise<void> {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { AuthService } from './core/services/auth.service';
@@ -14,7 +14,13 @@ export class AppComponent implements OnInit {
     private readonly auth: AuthService,
     private readonly store: FinanceStore,
     private readonly router: Router,
-  ) {}
+  ) {
+    // Apply dark-mode class globally whenever the setting changes or on startup
+    effect(() => {
+      const { darkMode } = this.store.settings();
+      document.body.classList.toggle('dark-mode', darkMode);
+    });
+  }
 
   ngOnInit(): void {
     if (this.auth.isAuthenticated()) {

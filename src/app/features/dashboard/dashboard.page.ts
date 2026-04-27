@@ -129,8 +129,10 @@ export class DashboardPage {
   }
 
   formatDate(isoDate: string): string {
-    const [year, month, day] = isoDate.split('-');
-    return `${day}/${month}/${year}`;
+    const [year, month, day] = isoDate.split('-').map(Number);
+    return new Intl.DateTimeFormat(this.store.settings().locale, {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+    }).format(new Date(year, month - 1, day));
   }
 
   categoryPct(amount: number): number {
