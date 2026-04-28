@@ -13,6 +13,7 @@
         <input
           pInputText
           id="loginName"
+          data-cy="register-name"
           [(ngModel)]="name"
           placeholder="Seu nome"
           type="text"
@@ -26,6 +27,7 @@
       <input
         pInputText
         id="loginEmail"
+        data-cy="login-email"
         [(ngModel)]="email"
         placeholder="voce@email.com"
         type="email"
@@ -38,6 +40,7 @@
       <label for="loginPassword">Senha</label>
       <p-password
         inputId="loginPassword"
+        data-cy="login-password"
         [(ngModel)]="password"
         placeholder="••••••••"
         [toggleMask]="true"
@@ -46,12 +49,13 @@
     </div>
 
     @if (errorMessage()) {
-      <p class="error-msg">{{ errorMessage() }}</p>
+      <p class="error-msg" data-cy="login-error">{{ errorMessage() }}</p>
     }
 
     <p-button
       [label]="mode() === 'login' ? 'Entrar' : 'Criar conta'"
       [loading]="loading()"
+      data-cy="login-submit"
       (onClick)="submit()"
     ></p-button>
 
