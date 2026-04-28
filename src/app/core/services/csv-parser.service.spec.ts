@@ -160,7 +160,7 @@ describe('CsvParserService', () => {
       const rows = [{ Data: '01/06/2025', Descricao: 'Mercado', Valor: '150,00' }];
       const mapping = { dateColumn: 'Data', descriptionColumn: 'Descricao', amountColumn: 'Valor', defaultType: 'expense' as const };
       const preview = service.buildPreview(rows, mapping);
-      expect(preview[0].parsed.valid).toBeTrue();
+      expect(preview[0].parsed.valid).toBe(true);
       expect(preview[0].parsed.amount).toBeCloseTo(150.0);
       expect(preview[0].parsed.date).toBe('2025-06-01');
     });
@@ -169,7 +169,7 @@ describe('CsvParserService', () => {
       const rows = [{ Data: 'invalid', Descricao: 'Mercado', Valor: '150,00' }];
       const mapping = { dateColumn: 'Data', descriptionColumn: 'Descricao', amountColumn: 'Valor', defaultType: 'expense' as const };
       const preview = service.buildPreview(rows, mapping);
-      expect(preview[0].parsed.valid).toBeFalse();
+      expect(preview[0].parsed.valid).toBe(false);
       expect(preview[0].parsed.validationError).toContain('Data invalida');
     });
 
@@ -177,7 +177,7 @@ describe('CsvParserService', () => {
       const rows = [{ Data: '01/06/2025', Descricao: 'Mercado', Valor: 'abc' }];
       const mapping = { dateColumn: 'Data', descriptionColumn: 'Descricao', amountColumn: 'Valor', defaultType: 'expense' as const };
       const preview = service.buildPreview(rows, mapping);
-      expect(preview[0].parsed.valid).toBeFalse();
+      expect(preview[0].parsed.valid).toBe(false);
     });
 
     it('should apply type column mapping when provided', () => {

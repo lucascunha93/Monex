@@ -17,12 +17,12 @@ const emptyTransactions: Transaction[] = [];
 describe('shouldGenerateForMonth', () => {
   it('should return true when rule has no prior generation and no existing transactions', () => {
     const rule = { ...baseRule, lastGeneratedMonth: undefined };
-    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBeTrue();
+    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBe(true);
   });
 
   it('should return false when rule already has lastGeneratedMonth for that month', () => {
     const rule = { ...baseRule, lastGeneratedMonth: '2025-06' };
-    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBeFalse();
+    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBe(false);
   });
 
   it('should return false when a matching transaction already exists for that month', () => {
@@ -41,33 +41,33 @@ describe('shouldGenerateForMonth', () => {
       },
     ];
     const rule = { ...baseRule, lastGeneratedMonth: undefined };
-    expect(shouldGenerateForMonth(rule, '2025-06', existing)).toBeFalse();
+    expect(shouldGenerateForMonth(rule, '2025-06', existing)).toBe(false);
   });
 
   it('should return false when target date is before rule startDate', () => {
     const rule = { ...baseRule, startDate: '2025-07-01', lastGeneratedMonth: undefined };
-    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBeFalse();
+    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBe(false);
   });
 
   it('should return false when target date is after rule endDate', () => {
     const rule = { ...baseRule, endDate: '2025-05-31', lastGeneratedMonth: undefined };
-    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBeFalse();
+    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBe(false);
   });
 
   it('should return true when target date is exactly on startDate month', () => {
     const rule = { ...baseRule, startDate: '2025-06-01', lastGeneratedMonth: undefined };
-    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBeTrue();
+    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBe(true);
   });
 
   it('should return true when target date is exactly on endDate month', () => {
     const rule = { ...baseRule, endDate: '2025-06-30', lastGeneratedMonth: undefined };
-    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBeTrue();
+    expect(shouldGenerateForMonth(rule, '2025-06', emptyTransactions)).toBe(true);
   });
 
   it('should handle rules with dayOfMonth exceeding month length (e.g. Feb 31 → Feb 28)', () => {
     const rule = { ...baseRule, dayOfMonth: 31, startDate: '2025-01-01', lastGeneratedMonth: undefined };
     // Feb 2025 only has 28 days — should clamp to day 28
-    expect(shouldGenerateForMonth(rule, '2025-02', emptyTransactions)).toBeTrue();
+    expect(shouldGenerateForMonth(rule, '2025-02', emptyTransactions)).toBe(true);
   });
 
   it('should not be affected by transactions of a different rule', () => {
@@ -86,7 +86,7 @@ describe('shouldGenerateForMonth', () => {
       },
     ];
     const rule = { ...baseRule, lastGeneratedMonth: undefined };
-    expect(shouldGenerateForMonth(rule, '2025-06', existing)).toBeTrue();
+    expect(shouldGenerateForMonth(rule, '2025-06', existing)).toBe(true);
   });
 });
 
