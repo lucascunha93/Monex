@@ -221,7 +221,8 @@
 
 .shell__content {
   padding: 1.75rem;
-  min-height: 100dvh;
+  height: 100dvh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
