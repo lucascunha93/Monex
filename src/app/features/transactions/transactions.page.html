@@ -63,18 +63,16 @@
   </p-card>
 
   <!-- Transaction list -->
-  <p-card>
+  <p-card class="list-card">
     @if (store.filteredTransactions().length === 0) {
       <div class="empty-state">
         <i class="pi pi-inbox"></i>
         <p>Nenhuma transacao encontrada.</p>
       </div>
     } @else {
-      <cdk-virtual-scroll-viewport itemSize="76" class="virtual-list">
-        <div
-          class="tx-row"
-          *cdkVirtualFor="let tx of store.filteredTransactions(); trackBy: trackById"
-        >
+      <div class="tx-list">
+        @for (tx of store.filteredTransactions(); track tx.id) {
+        <div class="tx-row">
           <div class="tx-row__type-dot" [class.tx-row__type-dot--income]="tx.type === 'income'">
             <i [class]="tx.type === 'income' ? 'pi pi-arrow-down-left' : 'pi pi-arrow-up-right'"></i>
           </div>
@@ -105,7 +103,8 @@
             </button>
           </div>
         </div>
-      </cdk-virtual-scroll-viewport>
+        }
+      </div>
     }
   </p-card>
 

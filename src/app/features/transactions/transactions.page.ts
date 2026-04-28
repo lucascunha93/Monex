@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -15,7 +14,6 @@ import { QuickEntryComponent } from '../../shared/components/quick-entry/quick-e
   imports: [
     CommonModule,
     FormsModule,
-    ScrollingModule,
     CardModule,
     InputTextModule,
     SelectModule,
@@ -43,10 +41,6 @@ export class TransactionsPage {
   ]);
 
   constructor(public readonly store: FinanceStore) {}
-
-  trackById(_: number, item: { id: string }): string {
-    return item.id;
-  }
 
   money(value: number): string {
     return formatCurrency(value, this.store.settings().locale, this.store.settings().currency);

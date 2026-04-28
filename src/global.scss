@@ -158,6 +158,35 @@ p-card,
   }
 }
 
+p-card.list-card {
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column;
+  min-height: 0;
+
+  .p-card {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+  }
+
+  .p-card-body {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+  }
+
+  .p-card-content {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+  }
+}
+
 .p-button {
   border-radius: var(--radius-md) !important;
   font-family: 'Outfit', sans-serif;
