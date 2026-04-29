@@ -1,0 +1,256 @@
+// ================================================================
+// PRIMENG — overrides globais de componentes
+// Seções: Card · Button · Input · Select · Tag · Dialog ·
+//         Datatable · Password · Dark mode
+// ================================================================
+
+// ── Card ─────────────────────────────────────────────────────────
+p-card,
+.p-card {
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-md) !important;
+  background: var(--surface-card) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border) !important;
+
+  .p-card-header {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 1.25rem 1.5rem 0;
+  }
+
+  .p-card-body {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+p-card.list-card {
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column;
+  min-height: 0;
+
+  .p-card         { flex: 1 !important; display: flex !important; flex-direction: column !important; min-height: 0 !important; }
+  .p-card-body    { flex: 1 !important; display: flex !important; flex-direction: column !important; min-height: 0 !important; }
+  .p-card-content { flex: 1 !important; display: flex !important; flex-direction: column !important; min-height: 0 !important; padding: 0 !important; }
+}
+
+// ── Button ───────────────────────────────────────────────────────
+.p-button {
+  border-radius: var(--radius-md) !important;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+// ── Input & InputNumber ──────────────────────────────────────────
+.p-inputtext,
+.p-inputnumber-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem !important;
+  font-size: 0.95rem;
+  font-family: 'Outfit', sans-serif;
+  border: 1.5px solid var(--slate-300) !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--white) !important;
+  color: var(--text-primary) !important;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  box-sizing: border-box;
+
+  &::placeholder { color: var(--text-muted) !important; }
+
+  &:focus,
+  &:focus-visible {
+    border-color: var(--brand-600) !important;
+    box-shadow: 0 0 0 3px var(--brand-a12) !important;
+    outline: none !important;
+  }
+}
+
+// ── Select / Dropdown ────────────────────────────────────────────
+.p-select,
+p-select {
+  width: 100%;
+  border-radius: var(--radius-md) !important;
+  border: 1.5px solid var(--slate-300) !important;
+  background: var(--white) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Outfit', sans-serif;
+
+  .p-select-label {
+    color: var(--text-primary) !important;
+    background: transparent !important;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .p-select-dropdown {
+    width: 2.2rem;
+    padding-right: 0.5rem;
+  }
+}
+
+.p-select-overlay {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+
+  .p-select-list {
+    background: var(--surface-card) !important;
+    padding: 0.25rem !important;
+  }
+
+  .p-select-option {
+    border-radius: var(--radius-sm) !important;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-secondary) !important;
+    padding-left: 6px;
+
+    &.p-select-option-selected,
+    &:hover {
+      background: var(--brand-50) !important;
+      color: var(--brand-700) !important;
+    }
+  }
+}
+
+// ── Tag ──────────────────────────────────────────────────────────
+.p-tag {
+  border-radius: var(--radius-sm) !important;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+}
+
+// ── Dialog ───────────────────────────────────────────────────────
+.p-dialog {
+  border-radius: var(--radius-xl) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-xl) !important;
+  background: var(--surface-card) !important;
+
+  .p-dialog-header {
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0 !important;
+    padding: 1.5rem !important;
+    font-weight: 700;
+    background: var(--surface-card) !important;
+    color: var(--text-primary) !important;
+  }
+
+  .p-dialog-content {
+    padding: 0 1.5rem 1rem !important;
+    background: var(--surface-card) !important;
+    color: var(--text-secondary) !important;
+  }
+
+  .p-dialog-footer {
+    padding: 1rem 1.5rem 1.5rem !important;
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl) !important;
+    background: var(--surface-card) !important;
+  }
+}
+
+// ── Datatable ────────────────────────────────────────────────────
+.p-datatable {
+  .p-datatable-thead > tr > th {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-soft);
+    background: transparent !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 0.75rem 1rem;
+  }
+
+  .p-datatable-tbody > tr > td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border) !important;
+    color: var(--text-secondary);
+  }
+
+  .p-datatable-tbody > tr:last-child > td { border-bottom: none !important; }
+
+  .p-datatable-tbody > tr:hover > td {
+    background: var(--brand-a03) !important;
+  }
+}
+
+// ── Password ─────────────────────────────────────────────────────
+p-password {
+  display: block;
+  width: 100%;
+}
+
+.p-password {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .p-inputtext { flex: 1; padding-right: 2.8rem; }
+
+  .p-password-toggle-icon,
+  .p-password-mask-icon,
+  .p-password-unmask-icon {
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1;
+    background: none;
+    border: none;
+    padding: 0;
+
+    &:hover { color: var(--slate-600); }
+  }
+}
+
+// ── Dark mode — overrides PrimeNG ────────────────────────────────
+body.dark-mode {
+  .p-card,
+  p-card {
+    background: var(--surface-card) !important;
+    border-color: var(--border) !important;
+  }
+
+  .p-inputtext,
+  .p-inputnumber-input {
+    background: var(--surface-white) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-strong) !important;
+  }
+
+  .p-select {
+    background: var(--surface-white) !important;
+    border-color: var(--border-strong) !important;
+
+    .p-select-label { color: var(--text-primary) !important; }
+  }
+
+  .p-select-overlay {
+    background: var(--surface-white) !important;
+    border-color: var(--border-strong) !important;
+
+    .p-select-list { background: var(--surface-white) !important; }
+
+    .p-select-option {
+      color: var(--text-secondary) !important;
+      &:hover { background: var(--white-a09) !important; }
+    }
+  }
+
+  .p-dialog,
+  .p-dialog-header,
+  .p-dialog-content,
+  .p-dialog-footer {
+    background: var(--surface-white) !important;
+    color: var(--text-primary) !important;
+  }
+}

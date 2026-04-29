@@ -1,0 +1,160 @@
+// ================================================================
+// TOKENS CSS — custom properties consumidas por todos os componentes
+//
+// Usa SCSS vars de _palette.scss para gerar valores derivados com
+// rgba(), garantindo que cores e transparências sejam sempre
+// consistentes com a paleta oficial.
+// ================================================================
+@use 'palette' as *;
+
+:root {
+  // ┌─ Brand ────────────────────────────────────────────────────┐
+  --brand-50:  #{$brand-50};
+  --brand-100: #{$brand-100};
+  --brand-200: #{$brand-200};
+  --brand-300: #{$brand-300};
+  --brand-400: #{$brand-400};
+  --brand-500: #{$brand-500};
+  --brand-600: #{$brand-600};
+  --brand-700: #{$brand-700};
+  --brand-900: #{$brand-900};
+
+  // Alpha de $brand-600 — hover, foco, sombras interativas
+  --brand-a02: #{rgba($brand-600, 0.02)};
+  --brand-a03: #{rgba($brand-600, 0.03)};
+  --brand-a06: #{rgba($brand-600, 0.06)};
+  --brand-a10: #{rgba($brand-600, 0.10)};
+  --brand-a12: #{rgba($brand-600, 0.12)};
+  --brand-a20: #{rgba($brand-600, 0.20)};
+  --brand-a30: #{rgba($brand-600, 0.30)};
+  --brand-a35: #{rgba($brand-600, 0.35)};
+  --brand-a40: #{rgba($brand-600, 0.40)};
+  --brand-a50: #{rgba($brand-600, 0.50)};
+
+  // Alpha de $brand-500 — gradientes decorativos do shell
+  --brand-500-a10: #{rgba($brand-500, 0.10)};
+  --brand-500-a18: #{rgba($brand-500, 0.18)};
+
+  // Alpha de $brand-400 — anel de foco em fundo escuro (login)
+  --brand-400-a18: #{rgba($brand-400, 0.18)};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Income · Verde ───────────────────────────────────────────┐
+  --income-500: #{$income-500};
+  --income-600: #{$income-600};
+  --income-bg:  #{rgba($income-500, 0.10)};
+  --income-a20: #{rgba($income-500, 0.20)};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Expense · Vermelho ───────────────────────────────────────┐
+  --expense-300: #{$expense-300};
+  --expense-500: #{$expense-500};
+  --expense-600: #{$expense-600};
+  --expense-bg:  #{rgba($expense-500, 0.10)};
+  --expense-a25: #{rgba($expense-500, 0.25)};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Accent · Roxo ────────────────────────────────────────────┐
+  --accent-500: #{$accent-500};
+  --accent-600: #{$accent-600};
+  --accent-bg:  #{rgba($accent-500, 0.10)};
+  --accent-a06: #{rgba($accent-500, 0.06)};
+  --accent-a12: #{rgba($accent-500, 0.12)};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Emerald — apenas gradientes decorativos ──────────────────┐
+  --emerald-500: #{$emerald-500};
+  --emerald-a06: #{rgba($emerald-500, 0.06)};
+  --emerald-a15: #{rgba($emerald-500, 0.15)};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Neutros brutos (contextos especiais: login, swatches) ────┐
+  --slate-100: #{$slate-100};
+  --slate-300: #{$slate-300};
+  --slate-600: #{$slate-600};
+  --green-50:  #{$green-50};
+  --white:     #{$white};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Texto semântico ──────────────────────────────────────────┐
+  --text-primary:   #{$slate-900};
+  --text-secondary: #{$slate-700};
+  --text-soft:      #{$slate-500};
+  --text-muted:     #{$slate-400};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Superfícies ──────────────────────────────────────────────┐
+  --surface-bg:    #{$slate-50};
+  --surface-card:  #{rgba($white, 0.82)};
+  --surface-white: #{$white};
+  --surface-dark:  #{$slate-900};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Branco alpha — glassmorphism e sobreposições ─────────────┐
+  --white-a05: #{rgba($white, 0.05)};
+  --white-a06: #{rgba($white, 0.06)};
+  --white-a07: #{rgba($white, 0.07)};
+  --white-a09: #{rgba($white, 0.09)};
+  --white-a10: #{rgba($white, 0.10)};
+  --white-a11: #{rgba($white, 0.11)};
+  --white-a12: #{rgba($white, 0.12)};
+  --white-a28: #{rgba($white, 0.28)};
+  --white-a35: #{rgba($white, 0.35)};
+  --white-a45: #{rgba($white, 0.45)};
+  --white-a50: #{rgba($white, 0.50)};
+  --white-a70: #{rgba($white, 0.70)};
+  --white-a75: #{rgba($white, 0.75)};
+  --white-a90: #{rgba($white, 0.90)};
+  --white-a92: #{rgba($white, 0.92)};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Escuro alpha — base: $slate-900 ─────────────────────────┐
+  --dark-a04: #{rgba($slate-900, 0.04)};
+  --dark-a05: #{rgba($slate-900, 0.05)};
+  --dark-a06: #{rgba($slate-900, 0.06)};
+  --dark-a07: #{rgba($slate-900, 0.07)};
+  --dark-a15: #{rgba($slate-900, 0.15)};
+  --dark-a25: #{rgba($slate-900, 0.25)};
+  --dark-a90: #{rgba($slate-900, 0.90)};
+  --dark-a95: #{rgba($slate-900, 0.95)};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Bordas ───────────────────────────────────────────────────┐
+  --border:        #{rgba($slate-900, 0.08)};
+  --border-strong: #{rgba($slate-900, 0.15)};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Sombras ──────────────────────────────────────────────────┐
+  --shadow-sm: 0 1px 3px #{rgba($slate-900, 0.06)}, 0 1px 2px #{rgba($slate-900, 0.04)};
+  --shadow-md: 0 4px 16px #{rgba($slate-900, 0.08)}, 0 2px 6px #{rgba($slate-900, 0.05)};
+  --shadow-lg: 0 12px 32px #{rgba($slate-900, 0.10)}, 0 4px 12px #{rgba($slate-900, 0.06)};
+  --shadow-xl: 0 24px 48px #{rgba($slate-900, 0.12)};
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Border radius ────────────────────────────────────────────┐
+  --radius-sm:  0.5rem;
+  --radius-md:  0.75rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.25rem;
+  --radius-2xl: 1.75rem;
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ Espaçamento ──────────────────────────────────────────────┐
+  --space-1: 0.25rem;
+  --space-2: 0.50rem;
+  --space-3: 0.75rem;
+  --space-4: 1.00rem;
+  --space-5: 1.25rem;
+  --space-6: 1.50rem;
+  --space-8: 2.00rem;
+  // └────────────────────────────────────────────────────────────┘
+
+  // ┌─ PrimeNG component tokens ─────────────────────────────────┐
+  --p-inputtext-border-color:         var(--slate-300);
+  --p-inputtext-hover-border-color:   var(--text-muted);
+  --p-inputtext-focus-border-color:   var(--brand-600);
+  --p-inputtext-background:           var(--white);
+  --p-inputtext-color:                var(--text-primary);
+  --p-inputnumber-input-border-color: var(--slate-300);
+  // └────────────────────────────────────────────────────────────┘
+}

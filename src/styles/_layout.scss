@@ -1,0 +1,62 @@
+// ================================================================
+// LAYOUT — utilitários de página, formulário e ações
+// ================================================================
+
+// ── Página ───────────────────────────────────────────────────────
+.page-section {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  h2 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    margin: 0.25rem 0 0;
+    color: var(--text-soft);
+    font-size: 0.95rem;
+  }
+}
+
+// ── Formulário ───────────────────────────────────────────────────
+.form-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-soft);
+  }
+}
+
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+// ── Ações ────────────────────────────────────────────────────────
+.footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}

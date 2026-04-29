@@ -1,0 +1,31 @@
+// ================================================================
+// BASE — reset, corpo, tipografia global e scrollbar
+// ================================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-primary);
+  background: var(--surface-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+// ── Scrollbar ────────────────────────────────────────────────────
+::-webkit-scrollbar         { width: 6px; height: 6px; }
+::-webkit-scrollbar-track   { background: transparent; }
+::-webkit-scrollbar-thumb   { background: var(--dark-a15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--dark-a25); }

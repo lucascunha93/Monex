@@ -1,0 +1,40 @@
+// ================================================================
+// DARK MODE — sobrescreve tokens semânticos para tema escuro
+//
+// Apenas tokens que mudam no dark mode são redeclarados aqui.
+// Tokens fixos (radius, spacing, brand sólidos) não precisam
+// de override — herdam os valores do modo claro.
+// ================================================================
+@use 'palette' as *;
+
+body.dark-mode {
+  // ── Texto ─────────────────────────────────────────────────────
+  --text-primary:   #{$slate-100};
+  --text-secondary: #{$slate-300};
+  --text-soft:      #{$slate-400};
+  --text-muted:     #{$slate-500};
+
+  // ── Bordas ────────────────────────────────────────────────────
+  --border:        #{rgba($white, 0.08)};
+  --border-strong: #{rgba($white, 0.14)};
+
+  // ── Superfícies ───────────────────────────────────────────────
+  --surface-bg:    #{$slate-900};
+  --surface-card:  #{rgba($slate-800, 0.90)};
+  --surface-white: #{$slate-800};
+
+  // ── Brand tints — mais suaves sobre fundo escuro ──────────────
+  --brand-50:  #{rgba($brand-500, 0.15)};
+  --brand-a02: #{rgba($brand-600, 0.03)};
+  --brand-a03: #{rgba($brand-600, 0.04)};
+  --brand-a06: #{rgba($brand-600, 0.09)};
+
+  // ── Finance tints — levemente mais fortes no dark ─────────────
+  --income-bg:  #{rgba($income-500, 0.15)};
+  --expense-bg: #{rgba($expense-500, 0.15)};
+
+  // ── Sombras — base preta no dark ──────────────────────────────
+  --shadow-sm: 0 1px 3px  #{rgba($black, 0.30)};
+  --shadow-md: 0 4px 16px #{rgba($black, 0.35)};
+  --shadow-lg: 0 12px 32px #{rgba($black, 0.40)};
+}

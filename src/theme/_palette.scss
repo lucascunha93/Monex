@@ -1,0 +1,51 @@
+// ================================================================
+// PALETA BRUTA — variáveis SCSS
+//
+// Referência interna: usadas por _tokens.scss e _dark.scss
+// para gerar CSS custom properties via rgba() e interpolação #{}.
+// Nunca importe este arquivo diretamente em componentes.
+// ================================================================
+
+// Brand · Azul (Tailwind Blue)
+$brand-50:  #eff6ff;
+$brand-100: #dbeafe;
+$brand-200: #bfdbfe;
+$brand-300: #93c5fd;
+$brand-400: #60a5fa;
+$brand-500: #3b82f6;
+$brand-600: #2563eb;
+$brand-700: #1d4ed8;
+$brand-900: #1e3a5f; // deep navy — fundo do login
+
+// Income · Verde (Tailwind Green)
+$income-500: #22c55e;
+$income-600: #16a34a;
+
+// Expense · Vermelho (Tailwind Red)
+$expense-300: #fca5a5;
+$expense-500: #ef4444;
+$expense-600: #dc2626;
+
+// Accent · Roxo (Tailwind Violet — economia / destaques)
+$accent-500: #8b5cf6;
+$accent-600: #7c3aed;
+
+// Emerald · Verde-esmeralda (Tailwind Emerald — gradientes decorativos)
+$emerald-500: #10b981;
+
+// Neutral · Slate (Tailwind Slate — superfícies e textos)
+$slate-50:  #f8fafc;
+$slate-100: #f1f5f9;
+$slate-200: #e2e8f0;
+$slate-300: #cbd5e1;
+$slate-400: #94a3b8;
+$slate-500: #64748b;
+$slate-600: #475569;
+$slate-700: #334155;
+$slate-800: #1e293b;
+$slate-900: #0f172a;
+
+// Puros
+$white:    #ffffff;
+$black:    #000000;
+$green-50: #f0fdf4; // Tailwind Green-50 — gradiente decorativo do shell
