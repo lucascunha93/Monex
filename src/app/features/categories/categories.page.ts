@@ -37,7 +37,7 @@ export class CategoriesPage {
   readonly iconOptions = [
     'pi pi-tag', 'pi pi-shopping-cart', 'pi pi-car', 'pi pi-home',
     'pi pi-heart', 'pi pi-briefcase', 'pi pi-chart-line', 'pi pi-graduation-cap',
-    'pi pi-ticket', 'pi pi-book', 'pi pi-utensils', 'pi pi-bolt',
+    'pi pi-ticket', 'pi pi-book', 'pi pi-apple', 'pi pi-bolt',
   ];
 
   draft = {

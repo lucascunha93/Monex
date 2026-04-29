@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { FinanceStore } from '../../state/finance.store';
 import { AuthService } from '../../core/services/auth.service';
@@ -22,6 +24,16 @@ import { TransactionDialogComponent } from '../components/transaction-dialog/tra
 })
 export class AppShellComponent {
   readonly showDialog = signal(false);
+
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd)),
+    { initialValue: null }
+  );
+
+  readonly showFab = computed(() => {
+    const url = this.currentUrl()?.urlAfterRedirects ?? this.router.url;
+    return ['/dashboard', '/transactions'].some(r => url.startsWith(r));
+  });
 
   readonly navItems = [
     { label: 'Dashboard', icon: 'pi pi-home', route: '/dashboard' },

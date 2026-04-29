@@ -45,6 +45,7 @@
 </div>
 
 <button
+  *ngIf="showFab()"
   type="button"
   class="floating-add"
   (click)="showDialog.set(true)"
