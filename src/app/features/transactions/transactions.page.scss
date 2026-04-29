@@ -60,7 +60,7 @@
   }
 
   &:hover {
-    background: rgba(37, 99, 235, 0.02);
+    background: var(--brand-a02);
     border-radius: var(--radius-md);
   }
 }
@@ -162,7 +162,7 @@
   gap: 0.4rem;
   padding: 0.6rem 1.1rem;
   background: var(--brand-700);
-  color: #fff;
+  color: var(--white);
   border: none;
   border-radius: var(--radius-md);
   font-family: 'Outfit', sans-serif;
@@ -192,7 +192,7 @@
   white-space: nowrap;
   margin-left: 0.5rem;
 
-  &:hover { background: rgba(15, 23, 42, 0.05); color: var(--text-primary); }
+  &:hover { background: var(--dark-a05); color: var(--text-primary); }
 }
 
 .icon-btn {

@@ -59,7 +59,7 @@
   &:hover { transform: scale(1.2); }
 
   &--selected {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px currentColor;
+    box-shadow: 0 0 0 2px var(--white), 0 0 0 4px currentColor;
   }
 }
 
@@ -106,7 +106,7 @@
 
   &--selected {
     background: var(--brand-700);
-    color: #fff;
+    color: var(--white);
     border-color: var(--brand-700);
   }
 }
@@ -119,7 +119,7 @@
   gap: 0.4rem;
   padding: 0.7rem 1.2rem;
   background: var(--brand-700);
-  color: #fff;
+  color: var(--white);
   border: none;
   border-radius: var(--radius-md);
   font-family: 'Outfit', sans-serif;
@@ -172,7 +172,7 @@
   transition: background 0.15s;
 
   &:last-child { border-bottom: none; }
-  &:hover { background: rgba(37, 99, 235, 0.03); }
+  &:hover { background: var(--brand-a03); }
 }
 
 .cat-row__icon {
@@ -217,7 +217,7 @@
 
   &--expense { background: var(--expense-bg); color: var(--expense-600); }
   &--income  { background: var(--income-bg);  color: var(--income-600);  }
-  &--both    { background: rgba(37, 99, 235, 0.1); color: var(--brand-700); }
+  &--both    { background: var(--brand-a10); color: var(--brand-700); }
 }
 
 @media (max-width: 960px) {

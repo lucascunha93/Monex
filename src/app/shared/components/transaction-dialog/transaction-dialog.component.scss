@@ -76,7 +76,7 @@
   cursor: pointer;
   transition: all 0.18s;
 
-  &:hover { background: rgba(15, 23, 42, 0.05); }
+  &:hover { background: var(--dark-a05); }
 }
 
 .btn-submit {
@@ -85,7 +85,7 @@
   gap: 0.4rem;
   padding: 0.6rem 1.2rem;
   background: var(--brand-700);
-  color: #fff;
+  color: var(--white);
   border: none;
   border-radius: var(--radius-md);
   font-family: 'Outfit', sans-serif;

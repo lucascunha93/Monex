@@ -58,8 +58,8 @@
   &:hover { transform: scale(1.15); }
 
   &--selected {
-    border-color: #fff;
-    box-shadow: 0 0 0 2.5px currentColor, 0 3px 8px rgba(0, 0, 0, 0.2);
+    border-color: var(--white);
+    box-shadow: 0 0 0 2.5px currentColor, 0 3px 8px var(--dark-a07);
   }
 }
 
@@ -70,7 +70,7 @@
   gap: 0.4rem;
   padding: 0.7rem 1.2rem;
   background: var(--brand-700);
-  color: #fff;
+  color: var(--white);
   border: none;
   border-radius: var(--radius-md);
   font-family: 'Outfit', sans-serif;
