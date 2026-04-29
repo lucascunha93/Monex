@@ -4,8 +4,7 @@ import localePt from '@angular/common/locales/pt';
 import localeEn from '@angular/common/locales/en';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
-import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 
@@ -35,8 +34,6 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.dark-mode', cssLayer: false } } }),
     { provide: LOCALE_ID, useValue: savedLocale },
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
   ],
 });
