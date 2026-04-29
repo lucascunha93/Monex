@@ -29,7 +29,7 @@
       <div class="kpi-card__icon"><i class="pi pi-arrow-down-left"></i></div>
       <div class="kpi-card__body">
         <span class="kpi-card__label">Receita do mes</span>
-        <strong class="kpi-card__value">{{ money(store.currentMonthIncome()) }}</strong>
+        <strong class="kpi-card__value">{{ fmt.money(store.currentMonthIncome()) }}</strong>
       </div>
     </div>
 
@@ -37,7 +37,7 @@
       <div class="kpi-card__icon"><i class="pi pi-arrow-up-right"></i></div>
       <div class="kpi-card__body">
         <span class="kpi-card__label">Despesa do mes</span>
-        <strong class="kpi-card__value kpi-card__value--danger">{{ money(store.currentMonthExpense()) }}</strong>
+        <strong class="kpi-card__value kpi-card__value--danger">{{ fmt.money(store.currentMonthExpense()) }}</strong>
       </div>
     </div>
 
@@ -46,7 +46,7 @@
       <div class="kpi-card__body">
         <span class="kpi-card__label">Saldo consolidado</span>
         <strong class="kpi-card__value" [class.kpi-card__value--danger]="store.consolidatedBalance() < 0">
-          {{ money(store.consolidatedBalance()) }}
+          {{ fmt.money(store.consolidatedBalance()) }}
         </strong>
       </div>
     </div>
@@ -56,7 +56,7 @@
       <div class="kpi-card__body">
         <span class="kpi-card__label">Economia do mes</span>
         <strong class="kpi-card__value" [class.kpi-card__value--danger]="monthSaving() < 0">
-          {{ money(monthSaving()) }}
+          {{ fmt.money(monthSaving()) }}
         </strong>
       </div>
     </div>
@@ -112,7 +112,7 @@
             <div class="category-bar__track">
               <div class="category-bar__fill" [style.width.%]="categoryPct(item.total)" [style.background]="item.category?.color ?? '#94a3b8'"></div>
             </div>
-            <span class="category-bar__amount text-sm font-semibold text-expense">{{ money(item.total) }}</span>
+            <span class="category-bar__amount text-sm font-semibold text-expense">{{ fmt.money(item.total) }}</span>
           </div>
         }
       }
@@ -134,10 +134,10 @@
           </div>
           <div class="recent-tx__info">
             <span class="recent-tx__desc">{{ tx.description }}</span>
-            <span class="recent-tx__meta text-sm text-muted">{{ categoryName(tx.categoryId) }} &bull; {{ formatDate(tx.date) }}</span>
+            <span class="recent-tx__meta text-sm text-muted">{{ fmt.categoryName(tx.categoryId) }} &bull; {{ fmt.date(tx.date) }}</span>
           </div>
           <span class="recent-tx__amount" [class.text-income]="tx.type === 'income'" [class.text-expense]="tx.type === 'expense'">
-            {{ tx.type === 'income' ? '+' : '-' }}{{ money(tx.amount) }}
+            {{ tx.type === 'income' ? '+' : '-' }}{{ fmt.money(tx.amount) }}
           </span>
         </div>
       }

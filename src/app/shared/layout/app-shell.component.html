@@ -58,6 +58,8 @@
   [visible]="showDialog()"
   [accounts]="store.accounts()"
   [categories]="store.categories()"
+  [locale]="store.settings().locale"
+  [currency]="store.settings().currency"
   (visibleChange)="showDialog.set($event)"
   (submitted)="onCreateTransaction($event)"
 ></app-transaction-dialog>

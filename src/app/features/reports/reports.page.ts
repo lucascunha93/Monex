@@ -5,8 +5,8 @@ import { CardModule } from 'primeng/card';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { createId } from '../../core/utils/id.util';
-import { formatCurrency } from '../../core/utils/money.util';
 import { FinanceStore } from '../../state/finance.store';
+import { FormatService } from '../../core/services/format.service';
 
 @Component({
   selector: 'app-reports-page',
@@ -25,14 +25,8 @@ export class ReportsPage {
 
   readonly projectedBalance = computed(() => this.store.consolidatedBalance() + (this.store.currentMonthIncome() - this.store.currentMonthExpense()) * 3);
   readonly topCategoryName = computed(() => this.store.insights().topCategory?.category?.name ?? 'Sem dados');
-  readonly locale = computed(() => this.store.settings().locale);
-  readonly currency = computed(() => this.store.settings().currency);
 
-  constructor(public readonly store: FinanceStore) {}
-
-  money(value: number): string {
-    return formatCurrency(value, this.store.settings().locale, this.store.settings().currency);
-  }
+  constructor(public readonly store: FinanceStore, public readonly fmt: FormatService) {}
 
   progress(goal: { targetAmount: number; currentAmount: number }): number {
     if (goal.targetAmount <= 0) {

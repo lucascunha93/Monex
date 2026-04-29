@@ -44,8 +44,8 @@
       <p-inputNumber
         inputId="txAmount"
         mode="currency"
-        currency="BRL"
-        locale="pt-BR"
+        [currency]="currency"
+        [locale]="locale"
         [(ngModel)]="model.amount"
       ></p-inputNumber>
     </div>

@@ -5,7 +5,7 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { FinanceStore } from '../../state/finance.store';
-import { formatCurrency } from '../../core/utils/money.util';
+import { FormatService } from '../../core/services/format.service';
 import { QuickEntryComponent } from '../../shared/components/quick-entry/quick-entry.component';
 
 @Component({
@@ -40,15 +40,7 @@ export class TransactionsPage {
     ...this.store.accounts(),
   ]);
 
-  constructor(public readonly store: FinanceStore) {}
-
-  money(value: number): string {
-    return formatCurrency(value, this.store.settings().locale, this.store.settings().currency);
-  }
-
-  categoryName(id: string): string {
-    return this.store.categories().find((c) => c.id === id)?.name ?? 'Sem categoria';
-  }
+  constructor(public readonly store: FinanceStore, public readonly fmt: FormatService) {}
 
   catColor(id: string): string {
     return this.store.categories().find((c) => c.id === id)?.color ?? '#94a3b8';
@@ -60,13 +52,6 @@ export class TransactionsPage {
 
   accountName(id: string): string {
     return this.store.accounts().find((a) => a.id === id)?.name ?? 'Sem conta';
-  }
-
-  formatDate(isoDate: string): string {
-    const [year, month, day] = isoDate.split('-').map(Number);
-    return new Intl.DateTimeFormat(this.store.settings().locale, {
-      day: '2-digit', month: '2-digit', year: 'numeric',
-    }).format(new Date(year, month - 1, day));
   }
 
   async handleQuickEntry(event: { description: string; amount: number; inferredType: 'income' | 'expense' }): Promise<void> {

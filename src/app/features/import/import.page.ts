@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, model, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -6,6 +6,7 @@ import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { CsvColumnMapping, CsvPreviewRow } from '../../core/models/csv.models';
 import { CsvParserService } from '../../core/services/csv-parser.service';
+import { FormatService } from '../../core/services/format.service';
 import { FinanceStore } from '../../state/finance.store';
 
 interface ImportState {
@@ -37,7 +38,7 @@ export class ImportPage {
 
   readonly validPreviewRows = computed(() => this.state().preview.filter((row) => row.parsed.valid));
   readonly invalidPreviewRows = computed(() => this.state().preview.filter((row) => !row.parsed.valid));
-  readonly selectedAccountId = signal<string>('');
+  readonly selectedAccountId = model<string>('');
   readonly importing = signal(false);
 
   readonly typeOptions = [
@@ -55,18 +56,11 @@ export class ImportPage {
   constructor(
     private readonly parser: CsvParserService,
     public readonly store: FinanceStore,
+    public readonly fmt: FormatService,
   ) {
     if (store.accounts().length) {
       this.selectedAccountId.set(store.accounts()[0].id);
     }
-  }
-
-  money(value: number): string {
-    return new Intl.NumberFormat(this.store.settings().locale, {
-      style: 'currency',
-      currency: this.store.settings().currency,
-      maximumFractionDigits: 2,
-    }).format(value);
   }
 
   onFileSelected(event: Event): void {
@@ -100,7 +94,6 @@ export class ImportPage {
   async confirmImport(): Promise<void> {
     this.importing.set(true);
     const accountId = this.selectedAccountId();
-    const validRows = this.validPreviewRows();
     let imported = 0;
     let skipped = 0;
 

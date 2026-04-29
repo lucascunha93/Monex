@@ -83,7 +83,7 @@
             <span class="tx-row__meta">
               <span class="cat-pill" [style.background]="catColor(tx.categoryId) + '22'" [style.color]="catColor(tx.categoryId)">
                 <i [class]="catIcon(tx.categoryId)"></i>
-                {{ categoryName(tx.categoryId) }}
+                {{ fmt.categoryName(tx.categoryId) }}
               </span>
               &bull;
               <span>{{ accountName(tx.accountId) }}</span>
@@ -96,9 +96,9 @@
               [class.tx-row__amount--income]="tx.type === 'income'"
               [class.tx-row__amount--expense]="tx.type === 'expense'"
             >
-              {{ tx.type === 'income' ? '+' : '-' }}{{ money(tx.amount) }}
+              {{ tx.type === 'income' ? '+' : '-' }}{{ fmt.money(tx.amount) }}
             </span>
-            <span class="tx-row__date">{{ formatDate(tx.date) }}</span>
+            <span class="tx-row__date">{{ fmt.date(tx.date) }}</span>
             <button type="button" class="icon-btn icon-btn--danger" data-cy="tx-delete-btn" title="Excluir" (click)="remove(tx.id)">
               <i class="pi pi-trash"></i>
             </button>

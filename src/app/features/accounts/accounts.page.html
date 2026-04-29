@@ -37,8 +37,8 @@
           <p-inputNumber
             inputId="accBalance"
             mode="currency"
-            [currency]="currency()"
-            [locale]="locale()"
+            [currency]="fmt.currency"
+            [locale]="fmt.locale"
             [(ngModel)]="draft.openingBalance"
           ></p-inputNumber>
         </div>
@@ -49,8 +49,8 @@
             <p-inputNumber
               inputId="accLimit"
               mode="currency"
-              [currency]="currency()"
-              [locale]="locale()"
+              [currency]="fmt.currency"
+              [locale]="fmt.locale"
               [(ngModel)]="draft.creditLimit"
             ></p-inputNumber>
           </div>
@@ -97,7 +97,7 @@
           <div class="account-card__balance">
             <span class="account-card__balance-label">Saldo inicial</span>
             <span class="account-card__balance-value">
-              {{ money(account.openingBalance) }}
+            {{ fmt.money(account.openingBalance) }}
             </span>
           </div>
         </div>

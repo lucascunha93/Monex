@@ -36,7 +36,7 @@
       <div class="insight-card__body">
         <span class="insight-card__label">Previsao de saldo em 90 dias</span>
         <span class="insight-card__value" [class.text-expense]="projectedBalance() < 0">
-          {{ money(projectedBalance()) }}
+          {{ fmt.money(projectedBalance()) }}
         </span>
       </div>
     </div>
@@ -54,11 +54,11 @@
       </div>
       <div class="form-field">
         <label for="goalTarget">Valor alvo</label>
-        <p-inputNumber inputId="goalTarget" mode="currency" [currency]="currency()" [locale]="locale()" [(ngModel)]="draftGoal.targetAmount"></p-inputNumber>
+        <p-inputNumber inputId="goalTarget" mode="currency" [currency]="fmt.currency" [locale]="fmt.locale" [(ngModel)]="draftGoal.targetAmount"></p-inputNumber>
       </div>
       <div class="form-field">
         <label for="goalCurrent">Valor atual</label>
-        <p-inputNumber inputId="goalCurrent" mode="currency" [currency]="currency()" [locale]="locale()" [(ngModel)]="draftGoal.currentAmount"></p-inputNumber>
+        <p-inputNumber inputId="goalCurrent" mode="currency" [currency]="fmt.currency" [locale]="fmt.locale" [(ngModel)]="draftGoal.currentAmount"></p-inputNumber>
       </div>
       <div class="form-field form-field--action">
         <button type="button" class="btn-save" (click)="saveGoal()">
@@ -81,8 +81,8 @@
             <div class="goal-card__fill" [style.width.%]="progress(goal)"></div>
           </div>
           <div class="goal-card__footer">
-            <span class="text-sm text-income font-bold">{{ money(goal.currentAmount) }}</span>
-            <span class="text-sm text-muted">de {{ money(goal.targetAmount) }}</span>
+            <span class="text-sm text-income font-bold">{{ fmt.money(goal.currentAmount) }}</span>
+            <span class="text-sm text-muted">de {{ fmt.money(goal.targetAmount) }}</span>
           </div>
         </div>
       }

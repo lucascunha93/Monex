@@ -3,14 +3,8 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { FinanceStore } from '../../state/finance.store';
-import { formatCurrency } from '../../core/utils/money.util';
 import { Transaction } from '../../core/models/finance.models';
-
-const MONTH_LABELS: Record<string, string> = {
-  '01': 'Janeiro', '02': 'Fevereiro', '03': 'Marco', '04': 'Abril',
-  '05': 'Maio', '06': 'Junho', '07': 'Julho', '08': 'Agosto',
-  '09': 'Setembro', '10': 'Outubro', '11': 'Novembro', '12': 'Dezembro',
-};
+import { FormatService } from '../../core/services/format.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -56,10 +50,7 @@ export class DashboardPage {
     }
 
     const months = Array.from(monthMap.keys()).sort((a, b) => a.localeCompare(b)).slice(-6);
-    const shortLabels = months.map((m) => {
-      const [, mo] = m.split('-');
-      return MONTH_LABELS[mo]?.slice(0, 3) ?? mo;
-    });
+    const shortLabels = months.map((m) => this.fmt.shortMonthLabel(m));
 
     return {
       labels: shortLabels,
@@ -107,10 +98,7 @@ export class DashboardPage {
       .slice(0, 6),
   );
 
-  readonly monthLabel = computed(() => {
-    const [year, month] = this.store.selectedMonth().split('-');
-    return `${MONTH_LABELS[month] ?? month} ${year}`;
-  });
+  readonly monthLabel = computed(() => this.fmt.monthLabel(this.store.selectedMonth()));
 
   readonly isCurrentMonth = computed(() => {
     const now = new Date();
@@ -118,22 +106,10 @@ export class DashboardPage {
     return this.store.selectedMonth() === key;
   });
 
-  constructor(public readonly store: FinanceStore) {}
-
-  money(value: number): string {
-    return formatCurrency(value, this.store.settings().locale, this.store.settings().currency);
-  }
-
-  categoryName(id: string): string {
-    return this.store.categories().find((c) => c.id === id)?.name ?? 'Sem categoria';
-  }
-
-  formatDate(isoDate: string): string {
-    const [year, month, day] = isoDate.split('-').map(Number);
-    return new Intl.DateTimeFormat(this.store.settings().locale, {
-      day: '2-digit', month: '2-digit', year: 'numeric',
-    }).format(new Date(year, month - 1, day));
-  }
+  constructor(
+    public readonly store: FinanceStore,
+    public readonly fmt: FormatService,
+  ) {}
 
   categoryPct(amount: number): number {
     const total = this.store.currentMonthExpense();

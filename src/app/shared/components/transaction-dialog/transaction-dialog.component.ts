@@ -19,6 +19,8 @@ export class TransactionDialogComponent implements OnChanges {
   @Input({ required: true }) visible = false;
   @Input({ required: true }) categories: Category[] = [];
   @Input({ required: true }) accounts: Account[] = [];
+  @Input() locale = 'pt-BR';
+  @Input() currency = 'BRL';
 
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() submitted = new EventEmitter<{
