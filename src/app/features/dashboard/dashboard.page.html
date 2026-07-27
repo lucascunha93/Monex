@@ -23,6 +23,33 @@
     </button>
   </div>
 
+  <section class="health-panel" [class.health-panel--warning]="summary().status === 'warning'" [class.health-panel--danger]="summary().status === 'danger'">
+    <div class="health-panel__header">
+      <div>
+        <span class="health-panel__eyebrow">Leitura rápida do mês</span>
+        <h3>{{ summary().label }}</h3>
+      </div>
+      <span class="health-panel__tag">{{ summary().goalsCompleted }}/{{ summary().goalsTotal }} metas concluídas</span>
+    </div>
+
+    <div class="health-panel__grid">
+      <article class="health-chip">
+        <span class="health-chip__label">Saldo do mês</span>
+        <strong class="health-chip__value" [class.health-chip__value--danger]="summary().balance < 0">{{ fmt.money(summary().balance) }}</strong>
+      </article>
+
+      <article class="health-chip">
+        <span class="health-chip__label">Taxa de economia</span>
+        <strong class="health-chip__value">{{ summary().savingsRate | number:'1.0-0' }}%</strong>
+      </article>
+
+      <article class="health-chip">
+        <span class="health-chip__label">Progresso médio das metas</span>
+        <strong class="health-chip__value">{{ summary().averageGoalProgress | number:'1.0-0' }}%</strong>
+      </article>
+    </div>
+  </section>
+
   <!-- KPI cards -->
   <div class="kpis">
     <div class="kpi-card kpi-card--income">
@@ -143,5 +170,39 @@
       }
     </p-card>
   </div>
+
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="card-header-bar">
+        <span>Metas em destaque</span>
+      </div>
+    </ng-template>
+    @if (goalHighlights().length === 0) {
+      <p class="text-soft text-sm">Nenhuma meta cadastrada ainda.</p>
+    } @else {
+      <div class="goal-highlights">
+        @for (goal of goalHighlights(); track goal.id) {
+          <article class="goal-highlight">
+            <div class="goal-highlight__header">
+              <div>
+                <span class="goal-highlight__name">{{ goal.name }}</span>
+                <span class="goal-highlight__meta">Faltam {{ fmt.money(goal.remaining) }}</span>
+              </div>
+              <strong class="goal-highlight__pct">{{ goal.progress | number:'1.0-0' }}%</strong>
+            </div>
+
+            <div class="goal-highlight__bar">
+              <div class="goal-highlight__fill" [style.width.%]="goal.progress"></div>
+            </div>
+
+            <div class="goal-highlight__footer">
+              <span class="text-sm text-income font-bold">{{ fmt.money(goal.currentAmount) }}</span>
+              <span class="text-sm text-muted">de {{ fmt.money(goal.targetAmount) }}</span>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </p-card>
 
 </section>

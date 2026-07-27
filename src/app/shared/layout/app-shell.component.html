@@ -22,14 +22,14 @@
     </nav>
 
     <div class="sidebar__footer">
-      <div class="status-dot" [class.status-dot--online]="sync.isOnline()">
+      <div class="status-dot" [class.status-dot--online]="sync.isOnline()" [class.status-dot--syncing]="sync.syncing()">
         <span class="status-dot__circle"></span>
         <span>{{ statusLabel() }}</span>
       </div>
 
       <div class="user-info">
         <div class="user-avatar" [title]="currentUserName()">
-          {{ currentUserName().charAt(0).toUpperCase() }}
+          {{ currentUserInitial() }}
         </div>
         <span class="user-name">{{ currentUserName() }}</span>
         <button type="button" class="logout-btn" title="Sair" (click)="logout()">
@@ -40,6 +40,18 @@
   </aside>
 
   <main class="shell__content">
+    @if (store.lastError()) {
+      <div class="shell-alert" role="alert">
+        <i class="pi pi-exclamation-triangle shell-alert__icon"></i>
+        <div class="shell-alert__body">
+          <strong>Operação não concluída</strong>
+          <span>{{ store.lastError() }}</span>
+        </div>
+        <button type="button" class="shell-alert__close" (click)="dismissError()" aria-label="Fechar aviso">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    }
     <router-outlet></router-outlet>
   </main>
 </div>

@@ -32,7 +32,7 @@ export class AppShellComponent {
 
   readonly showFab = computed(() => {
     const url = this.currentUrl()?.urlAfterRedirects ?? this.router.url;
-    return ['/dashboard', '/transactions'].some(r => url.startsWith(r));
+    return ['/dashboard', '/transactions'].some((route) => url.startsWith(route));
   });
 
   readonly navItems = [
@@ -45,8 +45,15 @@ export class AppShellComponent {
     { label: 'Configuracoes', icon: 'pi pi-cog', route: '/settings' },
   ];
 
-  readonly statusLabel = computed(() => (this.sync.isOnline() ? 'Online' : 'Offline'));
   readonly currentUserName = computed(() => this.auth.currentUser()?.name ?? '');
+  readonly currentUserInitial = computed(() => this.currentUserName().charAt(0).toUpperCase() || 'M');
+  readonly statusLabel = computed(() => {
+    if (this.sync.syncing()) {
+      return 'Sincronizando';
+    }
+
+    return this.sync.isOnline() ? 'Online' : 'Offline';
+  });
 
   constructor(
     public readonly store: FinanceStore,
@@ -59,6 +66,10 @@ export class AppShellComponent {
     this.auth.logout();
     this.store.clear();
     void this.router.navigate(['/login']);
+  }
+
+  dismissError(): void {
+    this.store.clearLastError();
   }
 
   async onCreateTransaction(payload: {

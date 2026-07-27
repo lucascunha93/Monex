@@ -69,16 +69,16 @@
   </p-card>
 
   <!-- Goals list -->
-  @if (store.goals().length > 0) {
+  @if (goalProgress().length > 0) {
     <div class="goals-grid">
-      @for (goal of store.goals(); track goal.id) {
+      @for (goal of goalProgress(); track goal.id) {
         <div class="goal-card">
           <div class="goal-card__header">
             <span class="goal-card__name">{{ goal.name }}</span>
-            <span class="goal-card__pct">{{ progress(goal) | number:'1.0-0' }}%</span>
+            <span class="goal-card__pct">{{ goal.progress | number:'1.0-0' }}%</span>
           </div>
           <div class="goal-card__bar">
-            <div class="goal-card__fill" [style.width.%]="progress(goal)"></div>
+            <div class="goal-card__fill" [style.width.%]="goal.progress"></div>
           </div>
           <div class="goal-card__footer">
             <span class="text-sm text-income font-bold">{{ fmt.money(goal.currentAmount) }}</span>

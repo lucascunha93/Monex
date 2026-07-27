@@ -15,6 +15,8 @@ import { FormatService } from '../../core/services/format.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPage {
+  readonly summary = computed(() => this.store.monthSummary());
+  readonly goalHighlights = computed(() => this.store.goalProgress().slice(0, 3));
 
   readonly lineOptions = {
     responsive: true,

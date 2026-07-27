@@ -25,15 +25,9 @@ export class ReportsPage {
 
   readonly projectedBalance = computed(() => this.store.consolidatedBalance() + (this.store.currentMonthIncome() - this.store.currentMonthExpense()) * 3);
   readonly topCategoryName = computed(() => this.store.insights().topCategory?.category?.name ?? 'Sem dados');
+  readonly goalProgress = computed(() => this.store.goalProgress());
 
   constructor(public readonly store: FinanceStore, public readonly fmt: FormatService) {}
-
-  progress(goal: { targetAmount: number; currentAmount: number }): number {
-    if (goal.targetAmount <= 0) {
-      return 0;
-    }
-    return Math.min((goal.currentAmount / goal.targetAmount) * 100, 100);
-  }
 
   async saveGoal(): Promise<void> {
     const model = this.draftGoal;

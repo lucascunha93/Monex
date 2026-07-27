@@ -15,6 +15,7 @@ import { createId } from '../core/utils/id.util';
 import { getCurrentMonthKey, monthKeyFromDate } from '../core/utils/date.util';
 import { resolveCategoryId, fallbackCategoryId } from '../core/utils/category.util';
 import { shouldGenerateForMonth, buildRecurringDate } from '../core/utils/recurring.util';
+import { DEFAULT_SETTINGS } from '../core/constants/default-data';
 
 interface AddTransactionInput {
   description: string;
@@ -27,11 +28,32 @@ interface AddTransactionInput {
   location?: string;
 }
 
+interface GoalProgressView extends FinancialGoal {
+  progress: number;
+  remaining: number;
+  completed: boolean;
+}
+
+interface MonthSummary {
+  income: number;
+  expense: number;
+  balance: number;
+  savingsRate: number;
+  goalsCompleted: number;
+  goalsTotal: number;
+  averageGoalProgress: number;
+  status: 'healthy' | 'warning' | 'danger';
+  label: string;
+}
+
+const DEFAULT_USER_SETTINGS: UserSettings = { ...DEFAULT_SETTINGS };
+
 @Injectable({
   providedIn: 'root',
 })
 export class FinanceStore {
   readonly loading = signal<boolean>(false);
+  readonly lastError = signal<string | null>(null);
   readonly transactions = signal<Transaction[]>([]);
   readonly accounts = signal<Account[]>([]);
   readonly categories = signal<Category[]>([]);
@@ -100,6 +122,71 @@ export class FinanceStore {
       .reduce((sum, transaction) => sum + transaction.amount, 0),
   );
 
+  readonly goalProgress = computed<GoalProgressView[]>(() =>
+    this.goals()
+      .map((goal) => {
+        const progress = goal.targetAmount > 0 ? Math.min((goal.currentAmount / goal.targetAmount) * 100, 100) : 0;
+
+        return {
+          ...goal,
+          progress,
+          remaining: Math.max(goal.targetAmount - goal.currentAmount, 0),
+          completed: goal.currentAmount >= goal.targetAmount,
+        };
+      })
+      .sort((a, b) => b.progress - a.progress),
+  );
+
+  readonly monthSummary = computed<MonthSummary>(() => {
+    const income = this.currentMonthIncome();
+    const expense = this.currentMonthExpense();
+    const balance = income - expense;
+    const savingsRate = income > 0 ? Math.max((balance / income) * 100, 0) : 0;
+    const goals = this.goalProgress();
+    const goalsCompleted = goals.filter((goal) => goal.completed).length;
+    const averageGoalProgress = goals.length ? goals.reduce((sum, goal) => sum + goal.progress, 0) / goals.length : 0;
+
+    if (balance < 0) {
+      return {
+        income,
+        expense,
+        balance,
+        savingsRate,
+        goalsCompleted,
+        goalsTotal: goals.length,
+        averageGoalProgress,
+        status: 'danger',
+        label: 'Atenção: despesas acima da receita',
+      };
+    }
+
+    if (savingsRate < 20) {
+      return {
+        income,
+        expense,
+        balance,
+        savingsRate,
+        goalsCompleted,
+        goalsTotal: goals.length,
+        averageGoalProgress,
+        status: 'warning',
+        label: 'Em ajuste: margem de economia abaixo da meta',
+      };
+    }
+
+    return {
+      income,
+      expense,
+      balance,
+      savingsRate,
+      goalsCompleted,
+      goalsTotal: goals.length,
+      averageGoalProgress,
+      status: 'healthy',
+      label: 'Saudável: fluxo de caixa controlado',
+    };
+  });
+
   readonly consolidatedBalance = computed(() => {
     const accountBase = this.accounts().reduce((sum, account) => sum + account.openingBalance, 0);
     const movement = this.transactions().reduce((sum, transaction) => {
@@ -150,8 +237,8 @@ export class FinanceStore {
       topCategory,
       message:
         variation > 0
-          ? `Seus gastos cresceram ${variation.toFixed(1)}% vs mes anterior`
-          : `Seus gastos reduziram ${Math.abs(variation).toFixed(1)}% vs mes anterior`,
+          ? `Seus gastos cresceram ${variation.toFixed(1)}% vs. o mês anterior`
+          : `Seus gastos reduziram ${Math.abs(variation).toFixed(1)}% vs. o mês anterior`,
     };
   });
 
@@ -162,6 +249,7 @@ export class FinanceStore {
 
   async init(): Promise<void> {
     this.loading.set(true);
+    this.lastError.set(null);
     try {
       await this.repository.bootstrapIfNeeded();
       const [transactions, accounts, categories, recurringRules, goals, settingsList] = await Promise.all([
@@ -182,10 +270,16 @@ export class FinanceStore {
         const { id: _id, ...settings } = settingsList[0];
         this.settings.set(settings);
         localStorage.setItem('monex_settings', JSON.stringify(settings));
+      } else {
+        this.settings.set(DEFAULT_USER_SETTINGS);
+        localStorage.setItem('monex_settings', JSON.stringify(DEFAULT_USER_SETTINGS));
       }
 
       await this.generateRecurringTransactions();
       await this.syncService.flushQueue();
+      this.lastError.set(null);
+    } catch {
+      this.lastError.set('Nao foi possivel carregar os dados financeiros.');
     } finally {
       this.loading.set(false);
     }
@@ -240,49 +334,103 @@ export class FinanceStore {
       location: input.location,
     };
 
-    this.transactions.update((current) => [...current, transaction]);
-    await this.repository.saveTransaction(transaction);
-    await this.syncService.enqueue('transaction:create', transaction);
+    const previousTransactions = this.transactions();
+    this.transactions.set([...previousTransactions, transaction]);
+
+    await this.persistWithRollback(
+      () => this.transactions.set(previousTransactions),
+      async () => {
+        await this.repository.saveTransaction(transaction);
+        await this.syncService.enqueue('transaction:create', transaction);
+      },
+      'Nao foi possivel salvar a transacao.',
+    );
   }
 
   async removeTransaction(id: string): Promise<void> {
-    this.transactions.update((current) => current.filter((item) => item.id !== id));
-    await this.repository.deleteTransaction(id);
-    await this.syncService.enqueue('transaction:delete', { id });
+    const previousTransactions = this.transactions();
+    this.transactions.set(previousTransactions.filter((item) => item.id !== id));
+
+    await this.persistWithRollback(
+      () => this.transactions.set(previousTransactions),
+      async () => {
+        await this.repository.deleteTransaction(id);
+        await this.syncService.enqueue('transaction:delete', { id });
+      },
+      'Nao foi possivel remover a transacao.',
+    );
   }
 
   async saveAccount(account: Account): Promise<void> {
-    this.accounts.update((current) => {
-      const exists = current.some((item) => item.id === account.id);
-      return exists ? current.map((item) => (item.id === account.id ? account : item)) : [...current, account];
-    });
-    await this.repository.saveAccount(account);
-    await this.syncService.enqueue('account:upsert', account);
+    const previousAccounts = this.accounts();
+    this.accounts.set(
+      previousAccounts.some((item) => item.id === account.id)
+        ? previousAccounts.map((item) => (item.id === account.id ? account : item))
+        : [...previousAccounts, account],
+    );
+
+    await this.persistWithRollback(
+      () => this.accounts.set(previousAccounts),
+      async () => {
+        await this.repository.saveAccount(account);
+        await this.syncService.enqueue('account:upsert', account);
+      },
+      'Nao foi possivel salvar a conta.',
+    );
   }
 
   async saveCategory(category: Category): Promise<void> {
-    this.categories.update((current) => {
-      const exists = current.some((item) => item.id === category.id);
-      return exists ? current.map((item) => (item.id === category.id ? category : item)) : [...current, category];
-    });
-    await this.repository.saveCategory(category);
-    await this.syncService.enqueue('category:upsert', category);
+    const previousCategories = this.categories();
+    this.categories.set(
+      previousCategories.some((item) => item.id === category.id)
+        ? previousCategories.map((item) => (item.id === category.id ? category : item))
+        : [...previousCategories, category],
+    );
+
+    await this.persistWithRollback(
+      () => this.categories.set(previousCategories),
+      async () => {
+        await this.repository.saveCategory(category);
+        await this.syncService.enqueue('category:upsert', category);
+      },
+      'Nao foi possivel salvar a categoria.',
+    );
   }
 
   async saveGoal(goal: FinancialGoal): Promise<void> {
-    this.goals.update((current) => {
-      const exists = current.some((item) => item.id === goal.id);
-      return exists ? current.map((item) => (item.id === goal.id ? goal : item)) : [...current, goal];
-    });
-    await this.repository.saveGoal(goal);
-    await this.syncService.enqueue('goal:upsert', goal);
+    const previousGoals = this.goals();
+    this.goals.set(
+      previousGoals.some((item) => item.id === goal.id)
+        ? previousGoals.map((item) => (item.id === goal.id ? goal : item))
+        : [...previousGoals, goal],
+    );
+
+    await this.persistWithRollback(
+      () => this.goals.set(previousGoals),
+      async () => {
+        await this.repository.saveGoal(goal);
+        await this.syncService.enqueue('goal:upsert', goal);
+      },
+      'Nao foi possivel salvar a meta.',
+    );
   }
 
   async saveSettings(settings: UserSettings): Promise<void> {
+    const previousSettings = this.settings();
     this.settings.set(settings);
     localStorage.setItem('monex_settings', JSON.stringify(settings));
-    await this.repository.saveSettings({ id: 'default', ...settings });
-    await this.syncService.enqueue('settings:update', settings);
+
+    await this.persistWithRollback(
+      () => {
+        this.settings.set(previousSettings);
+        localStorage.setItem('monex_settings', JSON.stringify(previousSettings));
+      },
+      async () => {
+        await this.repository.saveSettings({ id: 'default', ...settings });
+        await this.syncService.enqueue('settings:update', settings);
+      },
+      'Nao foi possivel salvar as configuracoes.',
+    );
   }
 
   switchUser(userId: string): void {
@@ -300,14 +448,34 @@ export class FinanceStore {
       const stored = localStorage.getItem('monex_settings');
       this.settings.set(stored ? JSON.parse(stored) : { locale: 'pt-BR', currency: 'BRL', darkMode: false });
     } catch {
-      this.settings.set({ locale: 'pt-BR', currency: 'BRL', darkMode: false });
+      this.settings.set(DEFAULT_USER_SETTINGS);
     }
     this.filters.set({ search: '', type: 'all', categoryId: 'all', accountId: 'all' });
     this.selectedMonth.set(getCurrentMonthKey());
+    this.lastError.set(null);
+  }
+
+  clearLastError(): void {
+    this.lastError.set(null);
   }
 
   private fallbackCategory(type: TransactionType): string {
     return fallbackCategoryId(type, this.categories());
+  }
+
+  private async persistWithRollback(
+    rollback: () => void,
+    operation: () => Promise<void>,
+    failureMessage: string,
+  ): Promise<void> {
+    try {
+      await operation();
+      this.lastError.set(null);
+    } catch (error) {
+      rollback();
+      this.lastError.set(failureMessage);
+      throw error;
+    }
   }
 
   private async generateRecurringTransactions(): Promise<void> {
